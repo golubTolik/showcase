@@ -1,0 +1,6 @@
+[
+  {
+    "type": "sqlite",
+    "path": "c:\\OSPanel\\home\\vetrina\\database\\store.sqlite"
+  }
+]
