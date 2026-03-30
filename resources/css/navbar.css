@@ -1,0 +1,90 @@
+.header {
+      background: #fefaf5;
+      backdrop-filter: blur(12px);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      border-bottom: 1px solid #f0e4d4;
+      padding: 16px 0;
+    }
+
+
+    .header-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .logo {
+      font-size: 24px;
+      font-weight: 500;
+      letter-spacing: -0.02em;
+      /* background: linear-gradient(135deg, #9b6a3c, #c48a5c); */
+      background: #000000;
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+      font-family: Gabriela;
+      display: flex;
+      align-items: center;
+    }
+    
+    .logo img{
+        width: 59px;
+        height: 49px;
+        margin-right: 10px;
+    }
+    .nav-links {
+      display: flex;
+      font-family: Gabriela;
+      gap: 28px;
+      font-weight: 500;
+    }
+    .nav-links a {
+      text-decoration: none;
+      color: #473126;
+      font-size: 20px;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover {
+      color: #B18B72;
+    }
+
+    .header-user {
+      display: flex;
+      /* gap: 28px; */
+    }
+    .icon-btn {
+      background: none;
+      padding: 4px 14px;
+      border: none;
+      border-radius: 20px;
+      cursor: pointer;
+      color: #473126;
+      transition: 0.3s;
+    }
+    .icon-btn img{
+      width: 32px;
+      height: 32px;
+    }
+    .icon-btn:hover {
+      background: #fde9dc;
+      transition: 0.3s;
+    }
+    .user-btn {
+        font-family: Gabriela;
+        font-size: 20px;
+      background: none;
+      padding: 4px 17px;
+      border: 2px solid #B18B72;
+      border-radius: 20px;
+      cursor: pointer;
+      color: #473126;
+      transition: 0.3s;
+    }
+    .user-btn:hover {
+      background: #B18B72;
+      transition: 0.3s;
+    }
