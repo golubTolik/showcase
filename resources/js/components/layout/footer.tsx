@@ -19,17 +19,17 @@ export default function Footer() {
                 <div className="footer-col">
                     <h4>Покупателям</h4>
                     <ul>
-                    <li><a href="#">Доставка и оплата</a></li>
-                    <li><a href="#">Возврат</a></li>
-                    <li><a href="#">Оптовикам</a></li>
-                    <li><a href="#">Подарочные сертификаты</a></li>
+                        <Link ><li><a href="#">Доставка и оплата</a></li></Link>
+                        <Link><li><a href="#">Возврат</a></li></Link>
+                        <Link><li><a href="#">Оптовикам</a></li></Link>
+                        <Link><li><a href="#">Подарочные сертификаты</a></li></Link>
                     </ul>
                 </div>
                 <div className="footer-col">
                     <h4>О компании</h4>
                     <ul>
-                    <li><a href="#">О нас</a></li>
-                    <li><a href="#">Контакты</a></li>
+                        <Link><li><a href="#">О нас</a></li></Link>
+                        <Link><li><a href="#">Контакты</a></li></Link>
                     </ul>
                 </div>
                 <div className="footer-col">

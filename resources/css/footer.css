@@ -1,4 +1,9 @@
 /* подвал */
+    .container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
     .footer {
       background: #2c241e;
       color: #e6d6c8;
@@ -58,9 +63,4 @@
       font-size: 0.8rem;
       font-family: Gabriela;
       color: #B18B72;
-    }
-    button {
-      background: none;
-      border: none;
-      font-family: inherit;
     }

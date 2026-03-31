@@ -1,34 +1,62 @@
 import { Link } from "@inertiajs/react";
-import React from "react";
+import { usePage } from '@inertiajs/react';
+import React, { useState } from "react";
 import '../../../css/navbar.css';
 
 import BookMarks from '../../../assets/icons/Bookmarks.svg';
 import Logo from '../../../assets/icons/logo1.svg';
 import ShoppingCart from '../../../assets/icons/ShoppingCart.svg';
 import UserCircle from '../../../assets/icons/UserCircle.svg';
+import ModalWindow from "../modal/modalWindow";
+import Auth from "@/components/user/auth";
+import Reg from "../user/reg";
 
 export default function Navbar() {
+    const { auth } = usePage().props;
+    const isLoggedIn = !!auth.user;
+
+    const [modalActive, setModalActive] = useState(false);
+
     return (
         <>
             <header className="header">
             <div className="container header-inner">
                 <div className="logo">
-                    <img src={Logo}></img>
+                    <Link href={'/'} className="flex items-center">
+                        <img src={Logo}></img>
                         Рукотворье
-                    <span></span>
+                    </Link>
                 </div>
                 <div className="nav-links">
-                    <a href="#">Главная</a>
-                    <a href="#">Каталог</a>
-                    <a href="#">О нас</a>
-                    <a href="#">Контакты</a>
+                    <Link href={'/'}>Главная</Link>
+                    <Link href={''}>Каталог</Link>
+                    <Link href={''}>О нас</Link>
+                    <Link href={''}>Контакты</Link>
                 </div>
                 <div className="header-user">
-                    <button className="user-btn">Вход</button>
-                    <button className="icon-btn"><img src={BookMarks}></img></button>
-                    <button className="icon-btn"><img src={ShoppingCart}></img></button>
-                    <button className="icon-btn"><img src={UserCircle}></img></button>
+                    <Link
+                        href={isLoggedIn ? '/favorites' : '#'}
+                        onClick={(e) => !isLoggedIn && e.preventDefault()}
+                        >
+                        <button
+                            className={`icon-btn text-[14px] font-[Gabriela] flex items-center  ${
+                                !isLoggedIn ? 'opacity-50 cursor-not-allowed' : ''
+                            }`}
+                            disabled={!isLoggedIn}
+                        >
+                            <img src={BookMarks} alt="Bookmarks" className="w-4 h-4" />
+                            <p>Избранное</p>
+                        </button>
+                    </Link>
+                    <Link href={''}><button className="icon-btn text-[14px] font-[Gabriela]"><img src={ShoppingCart}></img><p>Корзина</p></button></Link>
+                    <Link href={''}><button className="icon-btn text-[14px] font-[Gabriela]"><img src={UserCircle}></img><p>Войти</p></button></Link>
+                    <button onClick={()=>setModalActive(true)}>Open</button>
+                    <ModalWindow active={modalActive} setActive={setModalActive}>
+                        <Auth></Auth>
+                        <Reg></Reg>
+                    </ModalWindow>
                 </div>
+
             </div>
             </header>
         </>

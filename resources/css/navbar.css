@@ -1,4 +1,4 @@
-.header {
+    .header {
       background: #fefaf5;
       backdrop-filter: blur(12px);
       position: sticky;
@@ -7,7 +7,11 @@
       border-bottom: 1px solid #f0e4d4;
       padding: 16px 0;
     }
-
+    .container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
 
     .header-inner {
       display: flex;
@@ -30,7 +34,7 @@
       display: flex;
       align-items: center;
     }
-    
+
     .logo img{
         width: 59px;
         height: 49px;
@@ -64,6 +68,11 @@
       cursor: pointer;
       color: #473126;
       transition: 0.3s;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      align-content: center;
     }
     .icon-btn img{
       width: 32px;
@@ -76,13 +85,13 @@
     .user-btn {
         font-family: Gabriela;
         font-size: 20px;
-      background: none;
-      padding: 4px 17px;
-      border: 2px solid #B18B72;
-      border-radius: 20px;
-      cursor: pointer;
-      color: #473126;
-      transition: 0.3s;
+        background: none;
+        padding: 4px 17px;
+        border: 2px solid #B18B72;
+        border-radius: 20px;
+        cursor: pointer;
+        color: #473126;
+        transition: 0.3s;
     }
     .user-btn:hover {
       background: #B18B72;
