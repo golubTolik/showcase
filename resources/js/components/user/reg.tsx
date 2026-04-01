@@ -11,7 +11,7 @@ export default function Reg() {
         password: '',
     });
     const { flash } = usePage<{ flash: { success?: string; error?: string } }>().props;
-    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = (event) => {
         event.preventDefault();
         post('/registration'); // Отправка POST-запроса на сервер
     };
@@ -24,11 +24,6 @@ export default function Reg() {
                 <form onSubmit={handleSubmit}>
                     <div className='con'>
                         <label className='label'>Имя:</label>
-                        {/* <input
-                            type="email"
-                            value={data.name}
-                            onChange={(e) => setData('name', e.target.value)}
-                        /> */}
                         <Input
                             className='input'
                             type="text"
@@ -40,11 +35,6 @@ export default function Reg() {
                     </div>
                     <div className='con'>
                         <label className='label'>Email:</label>
-                        {/* <input
-                            type="email"
-                            value={data.email}
-                            onChange={(e) => setData('email', e.target.value)}
-                        /> */}
                         <Input
                             className='input'
                             type="email"
@@ -56,11 +46,6 @@ export default function Reg() {
                     </div>
                     <div className='con'>
                         <label className='label'>Пароль:</label>
-                        {/* <input
-                            type="password"
-                            value={data.password}
-                            onChange={(e) => setData('password', e.target.value)}
-                        /> */}
                         <Input
                             className='input'
                             type="password"

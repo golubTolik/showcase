@@ -12,7 +12,8 @@ class UserController extends Controller
     public function registration(Request $request)
     {
         $request->validate([
-            'name' => 'required|regex:/^[А-Яа-яЁё\s-]+$/u',
+            // 'name' => 'required|regex:/^[А-Яа-яЁё\s-]+$/u',
+            'name' => 'required',
             'email' => 'required|email:frc|unique:users',
             // 'password' => 'required|min:8|confirmed',
             'password' => 'required|min:8',
@@ -28,12 +29,14 @@ class UserController extends Controller
         $user = new User();
         $user->name = $request->name;
         $user->email = $request->email;
+        dd($user);
         $user->password = bcrypt($request->password);
+
         $user->save();
         if($user){
             Auth::login($user);
         }
-        return redirect()->route('index')->with('success','Вы зарегистрированы!');
+        return redirect()->back();
     }
     public function login(Request $request){
         $request->validate([

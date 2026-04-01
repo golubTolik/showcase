@@ -9,6 +9,7 @@ import ShoppingCart from '../../../assets/icons/ShoppingCart.svg';
 import UserCircle from '../../../assets/icons/UserCircle.svg';
 import ModalWindow from "../modal/modalWindow"
 import Reg from "../user/reg";
+import { start } from "repl";
 
 export default function Navbar() {
     const { auth } = usePage().props;
@@ -49,10 +50,14 @@ export default function Navbar() {
                         </button>
                     </Link>
                     <Link href={''}><button className="icon-btn text-[14px] font-[Gabriela]"><img src={ShoppingCart}></img><p>Корзина</p></button></Link>
-                    <Link href={''}><button className="icon-btn text-[14px] font-[Gabriela]"><img src={UserCircle}></img><p>Войти</p></button></Link>
-                    <button onClick={()=>setModalActive(true)}>Open</button>
+                    {/* <Link href={''}> */}
+                        <button className="icon-btn text-[14px] font-[Gabriela]" onClick={()=>setModalActive(true)}>
+                            <img src={UserCircle}></img>
+                            <p>Войти</p>
+                        </button>
+                    {/* </Link> */}
                     <ModalWindow active={modalActive} setActive={setModalActive}>
-                        <div style={{ display: 'flex', gap: '20px', marginBottom: '20px', justifyContent: "center" }}>
+                        <div style={{ display: 'flex', gap: '20px', marginBottom: '20px', justifyContent: "center", alignItems: "start"}}>
                             <button className={formType == 'auth' ? "check-btn active" : "check-btn"} onClick={() => setFormType('auth')}>Вход</button>
                             <button className={formType == 'reg' ? "check-btn active" : "check-btn"} onClick={() => setFormType('reg')}>Регистрация</button>
                         </div>
