@@ -97,3 +97,17 @@
       background: #B18B72;
       transition: 0.3s;
     }
+    .check-btn{
+        padding: 10px 20px;
+        color: #473126;
+        font-family: Gabriela;
+        border-radius: 50px;
+        border: 2px solid #B18B72;
+        width: 200px;
+        transition: 0.3s;
+        cursor: pointer;
+    }
+    .check-btn.active{
+        background-color: #B18B72;
+        color: #f0e4d4;
+    }

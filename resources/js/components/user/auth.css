@@ -1,0 +1,27 @@
+.label{
+    font-size: 16px;
+    color: #473126;
+    font-family: Gabriela;
+}
+.input{
+    margin: 5px 0px 20px 0px !important;
+    padding: 4px 10px !important;
+}
+.btn{
+    padding: 10px 20px;
+    color: #473126;
+    font-family: Gabriela;
+    border-radius: 50px;
+    border: 2px solid #B18B72;
+    width: 100%;
+    transition: 0.3s;
+    cursor: pointer;
+}
+.btn:hover{
+    background-color: #B18B72;
+    color: #f0e4d4;
+}
+.class-btn{
+    display: flex;
+    justify-content: center;
+}

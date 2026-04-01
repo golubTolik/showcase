@@ -1,7 +1,8 @@
 import { usePage } from '@inertiajs/react';
 import { useForm } from '@inertiajs/react';
 import React from "react";
-// import '../../../css/footer.css';
+import { Input } from "@/components/ui/input"
+import './auth.css';
 
 export default function Auth() {
     const { data, setData, post, processing, errors } = useForm({
@@ -20,27 +21,46 @@ export default function Auth() {
             <div className="container">
                 {flash.error && <div className="error">{flash.error}</div>}
                 <form onSubmit={handleSubmit}>
-                    <div>
-                        <label>Email:</label>
-                        <input
+                    <div className='con'>
+                        <label className='label'>Email:</label>
+                        {/* <input
+                            className='auth-input'
                             type="email"
                             value={data.email}
                             onChange={(e) => setData('email', e.target.value)}
+                        /> */}
+                        <Input
+                            className='input'
+                            type="email"
+                            value={data.email}
+                            onChange={(e) => setData('email', e.target.value)}
+                            placeholder="Введите e-mail"
                         />
                         {errors.email && <div style={{ color: 'red' }}>{errors.email}</div>}
                     </div>
-                    <div>
-                        <label>Пароль:</label>
-                        <input
+                    <div className='con'>
+                        <label className='label'>Пароль:</label>
+                        {/* <input
+                            className='auth-input'
                             type="password"
                             value={data.password}
                             onChange={(e) => setData('password', e.target.value)}
+                        /> */}
+                        <Input
+                            className='input'
+                            type="password"
+                            value={data.password}
+                            onChange={(e) => setData('password', e.target.value)}
+                            placeholder="Введите пароль"
                         />
                         {errors.password && <div style={{ color: 'red' }}>{errors.password}</div>}
                     </div>
-                    <button type="submit" disabled={processing}>
-                        Войти
-                    </button>
+                    <div className='class-btn'>
+                        <button className='btn' type="submit" disabled={processing}>
+                            Авторизоваться
+                        </button>
+                    </div>
+
                 </form>
             </div>
         </>
