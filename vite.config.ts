@@ -21,5 +21,11 @@ export default defineConfig({
         wayfinder({
             formVariants: true,
         }),
+
     ],
+    resolve: {
+        alias: {
+            'ziggy-js': path.resolve('vendor/tightenco/ziggy/dist'), // <-- Добавьте эту строку
+        },
+    },
 });

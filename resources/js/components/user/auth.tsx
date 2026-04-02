@@ -23,16 +23,11 @@ export default function Auth() {
                 <form onSubmit={handleSubmit}>
                     <div className='con'>
                         <label className='label'>Email:</label>
-                        {/* <input
-                            className='auth-input'
-                            type="email"
-                            value={data.email}
-                            onChange={(e) => setData('email', e.target.value)}
-                        /> */}
                         <Input
                             className='input'
                             type="email"
                             value={data.email}
+                            name='email'
                             onChange={(e) => setData('email', e.target.value)}
                             placeholder="Введите e-mail"
                         />
@@ -40,16 +35,11 @@ export default function Auth() {
                     </div>
                     <div className='con'>
                         <label className='label'>Пароль:</label>
-                        {/* <input
-                            className='auth-input'
-                            type="password"
-                            value={data.password}
-                            onChange={(e) => setData('password', e.target.value)}
-                        /> */}
                         <Input
                             className='input'
                             type="password"
                             value={data.password}
+                            name='password'
                             onChange={(e) => setData('password', e.target.value)}
                             placeholder="Введите пароль"
                         />

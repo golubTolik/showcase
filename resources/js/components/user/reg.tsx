@@ -11,7 +11,7 @@ export default function Reg() {
         password: '',
     });
     const { flash } = usePage<{ flash: { success?: string; error?: string } }>().props;
-    const handleSubmit = (event) => {
+    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         post('/registration'); // Отправка POST-запроса на сервер
     };
@@ -28,6 +28,7 @@ export default function Reg() {
                             className='input'
                             type="text"
                             value={data.name}
+                            name='name'
                             onChange={(e) => setData('name', e.target.value)}
                             placeholder="Введите ваше имя"
                         />
@@ -39,6 +40,7 @@ export default function Reg() {
                             className='input'
                             type="email"
                             value={data.email}
+                            name='email'
                             onChange={(e) => setData('email', e.target.value)}
                             placeholder="Введите ваш e-mail"
                         />
@@ -49,6 +51,7 @@ export default function Reg() {
                         <Input
                             className='input'
                             type="password"
+                            name='password'
                             value={data.password}
                             onChange={(e) => setData('password', e.target.value)}
                             placeholder="Введите ваш пароль"
