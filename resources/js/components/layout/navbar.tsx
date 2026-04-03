@@ -11,7 +11,7 @@ import { useEffect } from 'react';
 import '../../../css/navbar.css';
 import { route } from 'ziggy-js';
 // import { useRoute } from 'ziggy-js';
-// import { Button } from "@/components/ui/button"
+import { Button } from "@/components/ui/button"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -19,7 +19,11 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-
+import {
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+} from "@/components/ui/hover-card"
 import Auth from "@/components/user/auth";
 // import  {  route  }  from  '../../../../vendor/tightenco/ziggy';
 
@@ -60,7 +64,19 @@ export default function Navbar() {
                 </div>
                 <div className="nav-links">
                     <Link href={'/'}>Главная</Link>
-                    <Link href={''}>Каталог</Link>
+                    {/* <Link href={''}>Каталог</Link> */}
+                    <HoverCard openDelay={10} closeDelay={100}>
+                        <HoverCardTrigger asChild>
+                            <Link href={''}>Каталог</Link>
+                        </HoverCardTrigger>
+                        <HoverCardContent className="z-200 flex w-64 flex-col gap-0.5" style={{ padding: "10px 10px", backgroundColor: "#fefaf5" }}>
+                            <div className="font-semibold">@nextjs</div>
+                            <div>The React Framework – created and maintained by @vercel.</div>
+                            <div className="mt-1 text-xs text-muted-foreground">
+                            Joined December 2021
+                            </div>
+                        </HoverCardContent>
+                    </HoverCard>
                     <Link href={''}>О нас</Link>
                     <Link href={''}>Контакты</Link>
                 </div>

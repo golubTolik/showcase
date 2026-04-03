@@ -2,11 +2,12 @@
 
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\UserController;
+use App\Models\Category;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
 
-Route::inertia('/', 'index')->name('index');
+Route::inertia('/', 'index', ['categories'=>Category::all()])->name('index');
 // Route::get('/', [PageController::class, 'index'])->name('index');
 
 Route::post('/login', [UserController::class, 'login'])->name('login');

@@ -8,7 +8,7 @@ import MainImg from '../../assets/img/mainImg.png';
 
 
 
-export default function Index() {
+export default function Index({categories}) {
 
     return (
         <>
@@ -36,10 +36,14 @@ export default function Index() {
                 {/* <!-- Категории товаров --> */}
                 <div className="section-title">Категории</div>
                 <div className="categories-grid" id="categoriesGrid">
-                    <div className="category-card">
-                        <div className="category-emoji">emoji</div>
-                        <h3>cat.name</h3>
-                    </div>
+                    {categories.map((element) => (
+                        <div className="category-card">
+                            <div key={element.id} className="category-item">
+                                <div className="category-emoji">{element.img}</div>
+                                <h3>{element.name}</h3>
+                            </div>
+                        </div>
+                    ))}
                 </div>
 
                 {/* <!-- Популярные товары --> */}
