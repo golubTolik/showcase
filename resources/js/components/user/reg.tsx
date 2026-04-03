@@ -32,7 +32,7 @@ export default function Reg() {
                             onChange={(e) => setData('name', e.target.value)}
                             placeholder="Введите ваше имя"
                         />
-                        {errors.name && <div style={{ color: 'red' }}>{errors.name}</div>}
+                        {errors.name && <div className="field-error">{errors.name}</div>}
                     </div>
                     <div className='con'>
                         <label className='label'>Email:</label>
@@ -44,7 +44,7 @@ export default function Reg() {
                             onChange={(e) => setData('email', e.target.value)}
                             placeholder="Введите ваш e-mail"
                         />
-                        {errors.email && <div style={{ color: 'red' }}>{errors.email}</div>}
+                        {errors.email && <div className="field-error">{errors.email}</div>}
                     </div>
                     <div className='con'>
                         <label className='label'>Пароль:</label>
@@ -56,7 +56,7 @@ export default function Reg() {
                             onChange={(e) => setData('password', e.target.value)}
                             placeholder="Введите ваш пароль"
                         />
-                        {errors.password && <div style={{ color: 'red' }}>{errors.password}</div>}
+                        {errors.password && <div className="field-error">{errors.password}</div>}
                     </div>
                     <div className='class-btn'>
                         <button className='btn' type="submit" disabled={processing}>

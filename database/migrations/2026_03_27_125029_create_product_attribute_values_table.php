@@ -18,7 +18,7 @@ return new class extends Migration
             // $table->foreignId('product_id')->constrained()->cascadeOnDelete();
             // $table->foreignId('attribute_value_id')->constrained()->cascadeOnDelete();
             $table->foreignIdFor(Product::class)->constrained()->cascadeOnDelete()->cascadeOnUpdate();
-            $table->foreignId(Attribute_value::class)->constrained()->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignIdFor(Attribute_value::class)->constrained()->cascadeOnDelete()->cascadeOnUpdate();
             $table->unique(['product_id', 'attribute_value_id']);
             $table->timestamps();
         });

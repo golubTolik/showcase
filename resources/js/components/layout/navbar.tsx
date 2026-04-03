@@ -126,9 +126,9 @@ export default function Navbar() {
                             </p>
                         </button>
                     }
-                    
+
                     <ModalWindow active={modalActive} setActive={setModalActive}>
-                        <div style={{ display: 'flex', gap: '20px', marginBottom: '20px', justifyContent: "center", alignItems: "start"}}>
+                        <div style={{ display: 'flex', gap: '20px', justifyContent: "center", alignItems: "start"}}>
                             <button className={formType == 'auth' ? "check-btn active" : "check-btn"} onClick={() => setFormType('auth')}>Вход</button>
                             <button className={formType == 'reg' ? "check-btn active" : "check-btn"} onClick={() => setFormType('reg')}>Регистрация</button>
                         </div>

@@ -4,7 +4,7 @@
     font-family: Gabriela;
 }
 .input{
-    margin: 5px 0px 20px 0px !important;
+    margin: 5px 0px 0px 0px !important;
     padding: 4px 10px !important;
 }
 .btn{
@@ -24,4 +24,67 @@
 .class-btn{
     display: flex;
     justify-content: center;
+    margin-top: 20px;
+}
+.con{
+    margin-top: 20px;
+}
+
+.error {
+  padding: 12px 20px;
+  margin: 1rem 0;
+  background-color: #fef2f2;
+  border: 1px solid #fecaca;
+  border-radius: 12px;
+  color: #b91c1c;
+  font-size: 0.9rem;
+  font-weight: 500;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
+
+  /* Анимация появления */
+  animation: slideIn 0.2s ease-out;
+}
+
+/* Анимация плавного появления */
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Адаптив для маленьких экранов */
+@media (max-width: 640px) {
+  .error {
+    padding: 0.875rem 1rem;
+    font-size: 0.875rem;
+  }
+}
+.field-error {
+  margin-top: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  margin-top: 0.5rem;
+  background: #fff0f0;
+  border-radius: 10px;
+  color: #d32f2f;
+  font-size: 0.85rem;
+  font-weight: 500;
+  border: 1px solid #ffcdd2;
+
+  /* Анимация */
+  animation: fadeIn 0.2s ease-out;
+}
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
