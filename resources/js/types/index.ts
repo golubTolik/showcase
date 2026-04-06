@@ -8,3 +8,9 @@ export type * from './auth';
 //     };
 //     // другие глобальные пропсы, если есть
 // }
+export interface Category {
+  id: number;
+  name: string;
+  img: string;
+  parent_id: number | null;
+}

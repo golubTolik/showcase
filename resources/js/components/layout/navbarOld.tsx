@@ -11,7 +11,7 @@ import { useEffect } from 'react';
 import '../../../css/navbar.css';
 import { route } from 'ziggy-js';
 // import { useRoute } from 'ziggy-js';
-import { Button } from "@/components/ui/button"
+// import { Button } from "@/components/ui/button"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -26,7 +26,8 @@ import {
 } from "@/components/ui/hover-card"
 import Auth from "@/components/user/auth";
 // import  {  route  }  from  '../../../../vendor/tightenco/ziggy';
-
+import type { Category } from "@/types/index";
+import { buildCategoryTree } from "@/utils/categoryUtils";
 
 import BookMarks from '../../../assets/icons/Bookmarks.svg';
 import Logo from '../../../assets/icons/logo1.svg';
@@ -36,7 +37,12 @@ import ModalWindow from "../modal/modalWindow"
 import Reg from "../user/reg";
 // import { start } from "repl";
 
-export default function Navbar() {
+interface CategoryMenuProps {
+  categories: Category[];
+}
+
+export default function Navbar({ categories }: CategoryMenuProps) {
+    const { roots, childrenMap } = buildCategoryTree(categories);
     // const route = useRoute();
     const { auth } = usePage().props;
     const isLoggedIn = !!auth.user;
@@ -70,11 +76,52 @@ export default function Navbar() {
                             <Link href={''}>Каталог</Link>
                         </HoverCardTrigger>
                         <HoverCardContent className="z-200 flex w-64 flex-col gap-0.5" style={{ padding: "10px 10px", backgroundColor: "#fefaf5" }}>
-                            <div className="font-semibold">@nextjs</div>
-                            <div>The React Framework – created and maintained by @vercel.</div>
-                            <div className="mt-1 text-xs text-muted-foreground">
-                            Joined December 2021
-                            </div>
+                            {roots.map((rootCat) => {
+                                const subcategories = childrenMap.get(rootCat.id) || [];
+
+                                return (
+                                <HoverCard  key={rootCat.id} openDelay={200} closeDelay={100}>
+                                    <HoverCardTrigger asChild>
+                                    <div className="cursor-pointer px-3 py-2 rounded-md hover:bg-gray-100 transition-colors">
+                                        {rootCat.name}
+                                    </div>
+                                    </HoverCardTrigger>
+                                    <HoverCardContent
+                                    side="right"
+                                    align="start"
+                                    sideOffset={8}
+                                    className="z-250 flex w-64 flex-col gap-0.5"
+                                    style={{ padding: "10px 10px", backgroundColor: "#fefaf5" }}
+                                    >
+                                    {/* Заголовок – имя родительской категории */}
+                                    <div className="font-semibold mb-1">{rootCat.name}</div>
+
+                                    {/* Список подкатегорий */}
+                                    <div className="flex flex-col gap-1">
+                                        {subcategories.length > 0 ? (
+                                        subcategories.map((sub) => (
+                                            <div
+                                            key={sub.id}
+                                            className="text-sm text-gray-700 hover:text-gray-900 cursor-pointer transition-colors"
+                                            >
+                                            {sub.name}
+                                            </div>
+                                        ))
+                                        ) : (
+                                        <div className="text-sm text-gray-400">
+                                            Нет подкатегорий
+                                        </div>
+                                        )}
+                                    </div>
+
+                                    {/* Дополнительная информация (опционально) */}
+                                    <div className="mt-2 text-xs text-muted-foreground">
+                                        {subcategories.length} подкатегорий
+                                    </div>
+                                    </HoverCardContent>
+                                </HoverCard>
+                                );
+                            })}
                         </HoverCardContent>
                     </HoverCard>
                     <Link href={''}>О нас</Link>

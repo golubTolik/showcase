@@ -2,17 +2,18 @@ import { Link } from "@inertiajs/react";
 import React from "react";
 import '../../css/index.css';
 import Footer from "@/components/layout/footer";
-import Navbar from "@/components/layout/navbar";
+import Navbar from "@/components/layout/Navbar";
 import Subscribe from "@/components/subs/subscribe";
+import type { Category } from '@/types/index';
 import MainImg from '../../assets/img/mainImg.png';
 
 
 
-export default function Index({categories}) {
+export default function Index({categories} : {categories: Category[]}) {
 
     return (
         <>
-            <Navbar></Navbar>
+            <Navbar categories={categories}></Navbar>
 
             <main>
             {/* <!-- Hero --> */}
@@ -37,7 +38,7 @@ export default function Index({categories}) {
                 <div className="section-title">Категории</div>
                 <div className="categories-grid" id="categoriesGrid">
                     {categories.map((element) => (
-                        <div className="category-card">
+                        <div className="category-card ">
                             <div key={element.id} className="category-item">
                                 <div className="category-emoji">{element.img}</div>
                                 <h3>{element.name}</h3>
