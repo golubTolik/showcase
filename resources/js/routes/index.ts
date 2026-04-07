@@ -78,6 +78,84 @@ index.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
     
     index.form = indexForm
 /**
+* @see \Inertia\Controller::__invoke
+ * @see vendor/inertiajs/inertia-laravel/src/Controller.php:13
+ * @route '/catalog'
+ */
+export const catalog = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+    url: catalog.url(options),
+    method: 'get',
+})
+
+catalog.definition = {
+    methods: ["get","head"],
+    url: '/catalog',
+} satisfies RouteDefinition<["get","head"]>
+
+/**
+* @see \Inertia\Controller::__invoke
+ * @see vendor/inertiajs/inertia-laravel/src/Controller.php:13
+ * @route '/catalog'
+ */
+catalog.url = (options?: RouteQueryOptions) => {
+    return catalog.definition.url + queryParams(options)
+}
+
+/**
+* @see \Inertia\Controller::__invoke
+ * @see vendor/inertiajs/inertia-laravel/src/Controller.php:13
+ * @route '/catalog'
+ */
+catalog.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+    url: catalog.url(options),
+    method: 'get',
+})
+/**
+* @see \Inertia\Controller::__invoke
+ * @see vendor/inertiajs/inertia-laravel/src/Controller.php:13
+ * @route '/catalog'
+ */
+catalog.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
+    url: catalog.url(options),
+    method: 'head',
+})
+
+    /**
+* @see \Inertia\Controller::__invoke
+ * @see vendor/inertiajs/inertia-laravel/src/Controller.php:13
+ * @route '/catalog'
+ */
+    const catalogForm = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+        action: catalog.url(options),
+        method: 'get',
+    })
+
+            /**
+* @see \Inertia\Controller::__invoke
+ * @see vendor/inertiajs/inertia-laravel/src/Controller.php:13
+ * @route '/catalog'
+ */
+        catalogForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+            action: catalog.url(options),
+            method: 'get',
+        })
+            /**
+* @see \Inertia\Controller::__invoke
+ * @see vendor/inertiajs/inertia-laravel/src/Controller.php:13
+ * @route '/catalog'
+ */
+        catalogForm.head = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+            action: catalog.url({
+                        [options?.mergeQuery ? 'mergeQuery' : 'query']: {
+                            _method: 'HEAD',
+                            ...(options?.query ?? options?.mergeQuery ?? {}),
+                        }
+                    }),
+            method: 'get',
+        })
+    
+    catalog.form = catalogForm
+/**
 * @see \App\Http\Controllers\UserController::login
  * @see app/Http/Controllers/UserController.php:38
  * @route '/login'

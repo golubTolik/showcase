@@ -1,6 +1,6 @@
 import { usePage } from "@inertiajs/react";
 import { useState } from "react";
-import type { Category } from "@/types/index";
+// import type { Category } from "@/types/index";
 import { AuthModal } from "./AuthModal";
 import { Logo } from "./Logo";
 import { NavLinks } from "./NavLinks";
@@ -8,11 +8,11 @@ import { UserActions } from "./UserActions";
 
 import '../../../../css/navbar.css';
 
-interface NavbarProps {
-  categories: Category[];
-}
-
-export default function Navbar({ categories }: NavbarProps) {
+// interface NavbarProps {
+//   categories: Category[];
+// }
+// { categories }: NavbarProps
+export default function Navbar() {
   const { auth, flash } = usePage<{ auth: { user: any }, flash: { showModal?: boolean } }>().props;
   const isLoggedIn = !!auth.user;
   const [modalActive, setModalActive] = useState(false);
@@ -21,7 +21,8 @@ export default function Navbar({ categories }: NavbarProps) {
     <header className="header">
       <div className="container header-inner">
         <Logo />
-        <NavLinks categories={categories} />
+        {/* <NavLinks categories={categories} /> */}
+        <NavLinks/>
         <UserActions
           isLoggedIn={isLoggedIn}
           user={auth.user}

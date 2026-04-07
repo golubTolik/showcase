@@ -9,6 +9,7 @@ use Inertia\Inertia;
 
 Route::inertia('/', 'index', ['categories'=>Category::all()])->name('index');
 // Route::get('/', [PageController::class, 'index'])->name('index');
+Route::inertia('/catalog', 'catalog', ['categories'=>Category::all(), ''])->name('catalog');
 
 Route::post('/login', [UserController::class, 'login'])->name('login');
 Route::post('/registration', [UserController::class, 'registration'])->name('registration');
