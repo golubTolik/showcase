@@ -46,14 +46,7 @@ interface CatalogProps {
 }
 
 // Преобразует product_attribute_values в простой массив
-// function getAttributeValues(product: ProductWithDetails) {
-//   return product.product_attribute_values.map(pav => ({
-//     id: pav.id,
-//     attribute_value_id: pav.attribute_value_id,
-//     attribute: pav.attribute_values.attribute,
-//     value: pav.attribute_values.value,
-//   }));
-// }
+
 function getAttributeValues(product: ProductWithDetails) {
   if (!product.product_attribute_values) return [];
   return product.product_attribute_values

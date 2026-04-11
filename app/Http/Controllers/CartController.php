@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Cart;
 use Illuminate\Http\Request;
 
+use function Laravel\Prompts\alert;
+
 class CartController extends Controller
 {
     /**
@@ -28,7 +30,7 @@ class CartController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        alert('товар добавлен в корзину');
     }
 
     /**

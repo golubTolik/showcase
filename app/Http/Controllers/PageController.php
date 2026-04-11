@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Models\Product;
-use Illuminate\Support\Facades\Storage;
+// use Illuminate\Support\Facades\Storage;
 // use Illuminate\Http\Request;
 use Inertia\Inertia;
 

@@ -6,6 +6,7 @@ import Navbar from "@/components/layout/Navbar";
 import Subscribe from "@/components/subs/subscribe";
 import type { Category } from '@/types/index';
 import MainImg from '../../assets/img/mainImg.png';
+import { route } from "ziggy-js";
 
 
 
@@ -24,7 +25,7 @@ export default function Index({categories} : {categories: Category[]}) {
                     <div className="hero-text">
                         <h1>Где каждая деталь —<br></br> на своем месте</h1>
                         <p>Уют начинается с деталей. Качественные, красивые и практичные вещи для дома и кухни.</p>
-                        <Link><button className="btn-primary" id="exploreBtn">Смотреть каталог</button></Link>
+                        <Link href={route('catalog')}><button className="btn-primary" id="exploreBtn">Смотреть каталог</button></Link>
                     </div>
                     <div className="hero-image">
                         {/* <!-- уютная интерьерная картинка (svg-заглушка либо эмодзи-стиль, но используем реальное изображение из открытых источников? используем плейсхолдер но стильный) */}

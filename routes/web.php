@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\PageController;
 
 use App\Http\Controllers\ProductController;
@@ -17,6 +18,8 @@ Route::inertia('/', 'index', ['categories'=>Category::all()])->name('index');
 // ])->name('catalog');
 Route::get('/catalog', [PageController::class, 'catalog'])->name('catalog');
 Route::get('/products/show/{product}', [ProductController::class, 'show'])->name('products.show');
+
+Route::post('/cart', [CartController::class, 'store'])->name('cart.store');
 
 Route::post('/login', [UserController::class, 'login'])->name('login');
 Route::post('/registration', [UserController::class, 'registration'])->name('registration');
