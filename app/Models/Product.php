@@ -16,12 +16,9 @@ class Product extends Model
         return $this->hasMany(Product_image::class);
     }
 
-    public function attribute_values()
+    public function product_attribute_values()
     {
-        return $this->belongsToMany(
-            Attribute_value::class,
-            'product_attribute_values'
-        );
+        return $this->hasMany(Product_attribute_value::class);
     }
 
     public function favorites()

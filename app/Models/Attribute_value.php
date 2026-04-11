@@ -11,11 +11,8 @@ class Attribute_value extends Model
         return $this->belongsTo(Attribute::class);
     }
 
-    public function products()
+    public function product_attribute_values()
     {
-        return $this->belongsToMany(
-            Product::class,
-            'product_attribute_values'
-        );
+        return $this->hasMany(Product_attribute_value::class);
     }
 }

@@ -682,8 +682,8 @@ namespace App\Models {
      * @property int $attribute_id
      * @property int $id
      * @property-read \App\Models\Attribute $attribute
-     * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Product> $products
-     * @property-read int|null $products_count
+     * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Product_attribute_value> $product_attribute_values
+     * @property-read int|null $product_attribute_values_count
      * @method static \Illuminate\Database\Eloquent\Builder<Attribute_value>|Attribute_value whereId($value)
      * @method static \Illuminate\Database\Eloquent\Builder<Attribute_value>|Attribute_value whereAttributeId($value)
      * @method static \Illuminate\Database\Eloquent\Builder<Attribute_value>|Attribute_value whereValue($value)
@@ -2717,8 +2717,8 @@ namespace App\Models {
      * @property-read \App\Models\Category $category
      * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Product_image> $images
      * @property-read int|null $images_count
-     * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Attribute_value> $attribute_values
-     * @property-read int|null $attribute_values_count
+     * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Product_attribute_value> $product_attribute_values
+     * @property-read int|null $product_attribute_values_count
      * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Favorite> $favorites
      * @property-read int|null $favorites_count
      * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\User> $usersWhoFavorited
@@ -3063,6 +3063,8 @@ namespace App\Models {
      * @property int $attribute_value_id
      * @property int $product_id
      * @property int $id
+     * @property-read \App\Models\Product $product
+     * @property-read \App\Models\Attribute_value $attribute_value
      * @method static \Illuminate\Database\Eloquent\Builder<Product_attribute_value>|Product_attribute_value whereId($value)
      * @method static \Illuminate\Database\Eloquent\Builder<Product_attribute_value>|Product_attribute_value whereProductId($value)
      * @method static \Illuminate\Database\Eloquent\Builder<Product_attribute_value>|Product_attribute_value whereAttributeValueId($value)

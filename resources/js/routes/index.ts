@@ -78,8 +78,8 @@ index.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
     
     index.form = indexForm
 /**
-* @see \Inertia\Controller::__invoke
- * @see vendor/inertiajs/inertia-laravel/src/Controller.php:13
+* @see \App\Http\Controllers\PageController::catalog
+ * @see app/Http/Controllers/PageController.php:18
  * @route '/catalog'
  */
 export const catalog = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -93,8 +93,8 @@ catalog.definition = {
 } satisfies RouteDefinition<["get","head"]>
 
 /**
-* @see \Inertia\Controller::__invoke
- * @see vendor/inertiajs/inertia-laravel/src/Controller.php:13
+* @see \App\Http\Controllers\PageController::catalog
+ * @see app/Http/Controllers/PageController.php:18
  * @route '/catalog'
  */
 catalog.url = (options?: RouteQueryOptions) => {
@@ -102,8 +102,8 @@ catalog.url = (options?: RouteQueryOptions) => {
 }
 
 /**
-* @see \Inertia\Controller::__invoke
- * @see vendor/inertiajs/inertia-laravel/src/Controller.php:13
+* @see \App\Http\Controllers\PageController::catalog
+ * @see app/Http/Controllers/PageController.php:18
  * @route '/catalog'
  */
 catalog.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -111,8 +111,8 @@ catalog.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
     method: 'get',
 })
 /**
-* @see \Inertia\Controller::__invoke
- * @see vendor/inertiajs/inertia-laravel/src/Controller.php:13
+* @see \App\Http\Controllers\PageController::catalog
+ * @see app/Http/Controllers/PageController.php:18
  * @route '/catalog'
  */
 catalog.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
@@ -121,8 +121,8 @@ catalog.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
 })
 
     /**
-* @see \Inertia\Controller::__invoke
- * @see vendor/inertiajs/inertia-laravel/src/Controller.php:13
+* @see \App\Http\Controllers\PageController::catalog
+ * @see app/Http/Controllers/PageController.php:18
  * @route '/catalog'
  */
     const catalogForm = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -131,8 +131,8 @@ catalog.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
     })
 
             /**
-* @see \Inertia\Controller::__invoke
- * @see vendor/inertiajs/inertia-laravel/src/Controller.php:13
+* @see \App\Http\Controllers\PageController::catalog
+ * @see app/Http/Controllers/PageController.php:18
  * @route '/catalog'
  */
         catalogForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -140,8 +140,8 @@ catalog.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
             method: 'get',
         })
             /**
-* @see \Inertia\Controller::__invoke
- * @see vendor/inertiajs/inertia-laravel/src/Controller.php:13
+* @see \App\Http\Controllers\PageController::catalog
+ * @see app/Http/Controllers/PageController.php:18
  * @route '/catalog'
  */
         catalogForm.head = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
