@@ -1,11 +1,11 @@
-import { Link, useForm } from '@inertiajs/react';
+import { useForm } from '@inertiajs/react';
 import { useState } from 'react';
 import { route } from "ziggy-js";
 import Footer from '@/components/layout/footer';
 import Navbar from '@/components/layout/Navbar';
 import { asset } from '@/utils/helper';
 
-// Типы (можно вынести в отдельный файл)
+// Типы
 interface ProductImage {
   id: number;
   image_url: string;
@@ -48,10 +48,17 @@ export default function Show({ product }: ShowProps) {
   const [addedToCart, setAddedToCart] = useState(false);
   const [activeTab, setActiveTab] = useState<'characteristics' | 'description'>('characteristics');
 
-  const { post, processing } = useForm({
+  // Используем useForm, но будем обновлять поле quantity через setData
+  const { post, processing, setData } = useForm({
     quantity: quantity,
     product_id: product.id,
   });
+
+  // Общая функция изменения количества
+  const handleQuantityChange = (newQuantity: number) => {
+    setQuantity(newQuantity);
+    setData('quantity', newQuantity); // синхронизируем форму
+  };
 
   const handleAddToCart = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -157,14 +164,14 @@ export default function Show({ product }: ShowProps) {
                         <div className="flex items-center gap-2">
                         <div className="flex border rounded-md">
                             <button
-                            onClick={() => setQuantity((q) => Math.max(1, q - 1))}
+                            onClick={() => handleQuantityChange(Math.max(1, quantity - 1))}
                             className="px-3 py-1 border-r hover:bg-gray-100"
                             >
                             -
                             </button>
                             <span className="px-4 py-1 min-w-[3rem] text-center">{quantity}</span>
                             <button
-                            onClick={() => setQuantity((q) => Math.min(product.stock, q + 1))}
+                            onClick={() => handleQuantityChange(Math.min(product.stock, quantity + 1))}
                             className="px-3 py-1 border-l hover:bg-gray-100"
                             disabled={quantity >= product.stock}
                             >

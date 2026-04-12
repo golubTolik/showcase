@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PageController;
 
 use App\Http\Controllers\ProductController;
@@ -19,7 +20,14 @@ Route::inertia('/', 'index', ['categories'=>Category::all()])->name('index');
 Route::get('/catalog', [PageController::class, 'catalog'])->name('catalog');
 Route::get('/products/show/{product}', [ProductController::class, 'show'])->name('products.show');
 
-Route::post('/cart', [CartController::class, 'store'])->name('cart.store');
+// Route::post('/cart', [CartController::class, 'store'])->name('cart.store');
+Route::prefix('cart')->name('cart.')->group(function () {
+    Route::get('/', [CartController::class, 'index'])->name('index');
+    Route::post('/add', [CartController::class, 'store'])->name('store');
+    Route::patch('/item/{cartItem}', [CartController::class, 'update'])->name('update');
+    Route::delete('/item/{cartItem}', [CartController::class, 'destroy'])->name('destroy');
+});
+Route::post('/order', [OrderController::class, 'store'])->name('order.store');
 
 Route::post('/login', [UserController::class, 'login'])->name('login');
 Route::post('/registration', [UserController::class, 'registration'])->name('registration');

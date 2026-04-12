@@ -51,7 +51,7 @@ export const UserActions = ({ isLoggedIn, user, onLoginClick }: UserActionsProps
     </Link>
 
     {/* Корзина */}
-    <Link href="">
+    <Link href={route('cart.index')}>
       <button className="icon-btn text-[14px] font-[Gabriela]">
         <img src={ShoppingCart} alt="Cart" />
         <p>Корзина</p>
@@ -61,11 +61,11 @@ export const UserActions = ({ isLoggedIn, user, onLoginClick }: UserActionsProps
     {/* Вход / Профиль */}
     {isLoggedIn && user ? (
       <UserProfileDropdown user={user} />
-    ) : (
-      <button className="icon-btn text-[14px] font-[Gabriela]" onClick={onLoginClick}>
-        <img src={UserCircle} alt="Login" />
-        <p>Войти</p>
-      </button>
+        ) : (
+        <button className="icon-btn text-[14px] font-[Gabriela]" onClick={onLoginClick}>
+            <img src={UserCircle} alt="Login" />
+            <p>Войти</p>
+        </button>
     )}
   </div>
 );

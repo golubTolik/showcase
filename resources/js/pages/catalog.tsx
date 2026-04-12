@@ -1,4 +1,4 @@
-import { Link } from '@inertiajs/react';
+import { Link, router } from '@inertiajs/react';
 import React, { useState, useMemo, useEffect } from "react";
 import { route } from "ziggy-js";
 import Footer from "@/components/layout/footer";
@@ -213,13 +213,32 @@ export default function Catalog({ categories, products }: CatalogProps) {
     return selectedAttributeFilters.get(attrId)?.has(optionId) || false;
   };
 
+  // Функция добавления в корзину (1 шт.)
+  const handleAddToCart = (productId: number, productName: string) => {
+    router.post(route('cart.store'), {
+      product_id: productId,
+      quantity: 1,
+    }, {
+      preserveScroll: true,
+      onSuccess: () => {
+        // Опционально: показать уведомление (можно через alert или временное сообщение)
+        console.log(`${productName} добавлен в корзину`);
+        // Если хотите временное всплывающее сообщение – реализуйте через состояние
+      },
+      onError: (errors) => {
+        console.error('Ошибка добавления:', errors);
+        alert('Не удалось добавить товар в корзину');
+      }
+    });
+  };
+
   return (
     <>
       <Navbar />
       <main className="container mx-auto px-4 py-8 min-h-[100vh]">
         {/* Грид родительских категорий */}
         <div className="!mb-10">
-          <h2 className="text-2xl font-bold !mb-4 !mt-4 font-[Gabriela]">Категории</h2>
+          <h2 className="text-2xl  !mb-4 !mt-4 font-[Gabriela]">Категории</h2>
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
             {roots.map(cat => (
               <div
@@ -383,10 +402,7 @@ export default function Catalog({ categories, products }: CatalogProps) {
                                 className="btn-cart bg-[#f3ede7] border-none !py-2 !px-4 rounded-full font-medium cursor-pointer transition-colors duration-200 text-sm hover:bg-[#e7d9ce] hover:text-[#a35f34]"
                                 data-id={product.id}
                                 data-name={product.name}
-                                onClick={(e) => {
-                                  e.preventDefault();
-                                  // логика добавления в корзину
-                                }}
+                                onClick={() => handleAddToCart(product.id, product.name)}
                               >
                                 В корзину
                               </button>

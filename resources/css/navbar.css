@@ -3,7 +3,7 @@
       backdrop-filter: blur(12px);
       position: sticky;
       top: 0;
-      z-index: 100;
+      /* z-index: 100; */
       border-bottom: 1px solid #f0e4d4;
       padding: 16px 0;
     }
