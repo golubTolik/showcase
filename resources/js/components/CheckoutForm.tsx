@@ -103,9 +103,9 @@ export default function CheckoutForm({ totalPrice, onSuccess }: CheckoutFormProp
           onChange={e => setData('payment_method', e.target.value)}
           className="w-full border rounded-lg px-3! py-2!"
         >
-          <option value="card">Картой онлайн</option>
+          <option value="card">Картой при получении</option>
           <option value="cash">Наличными при получении</option>
-          <option value="bank">Банковский перевод</option>
+          {/* <option value="bank">Банковский перевод</option> */}
         </select>
       </div>
 

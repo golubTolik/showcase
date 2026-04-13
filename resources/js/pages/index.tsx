@@ -1,7 +1,8 @@
-import { Link } from "@inertiajs/react";
+import { Link, usePage } from "@inertiajs/react";
 import React from "react";
 import '../../css/index.css';
 import { route } from "ziggy-js";
+import Alert from '@/components/layout/alert';
 import Footer from "@/components/layout/footer";
 import Navbar from "@/components/layout/Navbar";
 import Subscribe from "@/components/subs/subscribe";
@@ -9,14 +10,16 @@ import type { Category } from '@/types/index';
 import MainImg from '../../assets/img/mainImg.png';
 
 
-
-
 export default function Index({categories} : {categories: Category[]}) {
+
+    const { flash } = usePage().props as { flash?: { success?: string; error?: string; info?: string }};
 
     return (
         <>
             {/* <Navbar categories={categories}></Navbar> */}
             <Navbar></Navbar>
+
+            <Alert flash={flash} autoCloseDelay={5000} />
 
             <main>
             {/* <!-- Hero --> */}

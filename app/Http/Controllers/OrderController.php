@@ -107,7 +107,7 @@ class OrderController extends Controller
             ]);
         } catch (\Exception $e) {
             DB::rollBack();
-            return back()->withErrors(['error' => 'Ошибка оформления заказа: ' . $e->getMessage()]);
+            return back()->with(['error' => 'Ошибка оформления заказа: ' . $e->getMessage()]);
         }
     }
 

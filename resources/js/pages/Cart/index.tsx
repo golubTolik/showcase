@@ -1,7 +1,8 @@
-import { Link, useForm, router, usePage } from '@inertiajs/react';
+import { Link, router, usePage } from '@inertiajs/react';
 import { useState, useEffect } from 'react';
 import { route } from "ziggy-js";
 import CheckoutForm from '@/components/CheckoutForm';
+import Alert from '@/components/layout/alert';
 import Footer from '@/components/layout/footer';
 import Navbar from '@/components/layout/Navbar';
 import ModalWindow from '@/components/modal/modalWindow';
@@ -23,8 +24,17 @@ interface Props {
     totalPrice: number;
 }
 
+interface FlashProps {
+  showModal?: boolean;
+  success?: string;
+  error?: string;
+  info?: string;
+}
+
 export default function CartIndex({ cartItems, totalPrice }: Props) {
-    const { flash } = usePage<{ flash: { showModal?: boolean } }>().props;
+    // const { flash } = usePage<{ flash: { showModal?: boolean; } }>().props;
+    // const { flash } = usePage().props as { flash?: { success?: string; error?: string; info?: string; }};
+    const { flash } = usePage<{ flash: FlashProps }>().props;
     const [modalActive, setModalActive] = useState(false);
 
     useEffect(() => {
@@ -74,6 +84,9 @@ export default function CartIndex({ cartItems, totalPrice }: Props) {
     return (
         <>
             <Navbar />
+
+            <Alert flash={flash} autoCloseDelay={5000} />
+
             <main className="container min-h-[100vh] mx-auto! px-4! py-8! max-w-5xl">
                 <h1 className="text-2xl  !mb-6 font-[Gabriela]">Корзина</h1>
 

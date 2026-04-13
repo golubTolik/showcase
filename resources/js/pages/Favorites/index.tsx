@@ -1,6 +1,7 @@
-import { Link, router } from '@inertiajs/react';
+import { Link, router, usePage } from '@inertiajs/react';
 import { useState } from 'react';
 import { route } from "ziggy-js";
+import Alert from '@/components/layout/alert';
 import Footer from '@/components/layout/footer';
 import Navbar from '@/components/layout/Navbar';
 import { asset } from '@/utils/helper';
@@ -19,6 +20,8 @@ interface Props {
 }
 
 export default function FavoritesIndex({ favorites }: Props) {
+    const { flash } = usePage().props as { flash?: { success?: string; error?: string; info?: string }};
+
     const [items, setItems] = useState(favorites);
     const [removingId, setRemovingId] = useState<number | null>(null);
 
@@ -50,12 +53,15 @@ export default function FavoritesIndex({ favorites }: Props) {
     return (
         <>
             <Navbar />
+
+            <Alert flash={flash} autoCloseDelay={5000} />
+
             <main className="container mx-auto! px-4! py-8! max-w-6xl min-h-[100vh]">
                 <h1 className="text-2xl mb-6! font-[Gabriela]">Избранное</h1>
 
                 {items.length === 0 ? (
                     <div className="text-center py-12!">
-                        <p className="text-gray-500 mb-4">В избранном пока нет товаров</p>
+                        <p className="text-gray-500 mb-4!">В избранном пока нет товаров</p>
                         <Link href={route('catalog')} className="text-[#b4632e] hover:underline">
                             Перейти в каталог
                         </Link>
@@ -98,7 +104,7 @@ export default function FavoritesIndex({ favorites }: Props) {
                                                 className="product-img w-full h-full object-cover block"
                                             />
                                         ) : (
-                                            <div className="product-img-placeholder text-[#aa8e76] text-sm text-center p-4 bg-[#faf0e6] w-full h-full flex items-center justify-center">
+                                            <div className="product-img-placeholder text-[#aa8e76] text-sm text-center p-4! bg-[#faf0e6] w-full h-full flex items-center justify-center">
                                                 🖼️ {item.name}
                                             </div>
                                         )}
@@ -115,7 +121,7 @@ export default function FavoritesIndex({ favorites }: Props) {
                                         <div className="product-desc text-sm text-[#7c6957] !mb-4 leading-relaxed">
                                             {item.description}
                                         </div>
-                                   
+
                                     <div className="price-row flex justify-between items-baseline !mt-2">
                                         <div>
                                             <span className="price font-bold text-[1.4rem] text-[#b4632e]">
@@ -123,7 +129,7 @@ export default function FavoritesIndex({ favorites }: Props) {
                                             </span>
                                         </div>
                                         <button
-                                            className="btn-cart bg-[#f3ede7] border-none !py-2 !px-4 rounded-full font-medium cursor-pointer transition-colors duration-200 text-sm hover:bg-[#e7d9ce] hover:text-[#a35f34]"
+                                            className="btn-cart bg-[#f3ede7] border-none py-2! px-4! rounded-full font-medium cursor-pointer transition-colors duration-200 text-sm hover:bg-[#e7d9ce] hover:text-[#a35f34]"
                                             data-id={item.product_id}
                                             data-name={item.name}
                                             onClick={() => addToCart(item.product_id, item.name)}
