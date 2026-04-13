@@ -43,7 +43,7 @@ interface ShowProps {
 
 export default function Show({ product, favoriteProductIds }: ShowProps) {
     const { flash } = usePage().props as { flash?: { success?: string; error?: string; info?: string }};
-    
+
     const [selectedImage, setSelectedImage] = useState<string>(
         product.images[0]?.image_url || ''
     );
@@ -105,11 +105,11 @@ export default function Show({ product, favoriteProductIds }: ShowProps) {
 
         <Alert flash={flash} autoCloseDelay={5000} />
 
-        <main className="container !mx-auto !px-4 !py-8 max-w-6xl">
+        <main className="container mx-auto! px-4! py-8! max-w-6xl">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {/* Левая колонка – галерея */}
             <div>
-                <div className="!mb-4 rounded-xl overflow-hidden bg-gray-100">
+                <div className="mb-4! rounded-xl overflow-hidden bg-gray-100">
                 <img
                     src={asset(selectedImage)}
                     alt={product.name}
@@ -122,7 +122,7 @@ export default function Show({ product, favoriteProductIds }: ShowProps) {
                     <button
                         key={img.id}
                         onClick={() => setSelectedImage(img.image_url)}
-                        className={`flex-shrink-0 w-20 h-20 rounded-md overflow-hidden border-2 ${
+                        className={`shrink-0 w-20 h-20 rounded-md overflow-hidden border-2 ${
                         selectedImage === img.image_url
                             ? 'border-[#b4632e]'
                             : 'border-transparent'
@@ -142,11 +142,11 @@ export default function Show({ product, favoriteProductIds }: ShowProps) {
             {/* Правая колонка – информация */}
                 <div className=''>
                     {/* Строка: название + избранное */}
-                    <div className="flex justify-between items-start mb-4">
+                    <div className="flex justify-between items-start mb-4!">
                         <h1 className="text-3xl font-bold">{product.name}</h1>
                         <button
                             onClick={toggleFavorite}
-                            className={`flex cursor-pointer items-center gap-2 px-4 py-2 rounded-full border transition ${
+                            className={`flex cursor-pointer items-center gap-2 px-4! py-2! rounded-full border transition ${
                             isFavorite
                                 ? 'bg-red-50 border-[#b4632e] text-[#b4632e]'
                                 : 'bg-white border-gray-300 text-gray-700 hover:border-[#b4632e] hover:text-[#b4632e]'
@@ -170,8 +170,8 @@ export default function Show({ product, favoriteProductIds }: ShowProps) {
                     </div>
 
                     {/* Блок: цена, наличие, количество, корзина */}
-                    <div className="bg-white shadow-md rounded-lg p-4 mb-6">
-                        <div className="flex items-baseline gap-4 mb-4">
+                    <div className="bg-white shadow-md rounded-lg p-4! mb-6!">
+                        <div className="flex items-baseline gap-4 mb-4!">
                             <span className="text-3xl font-bold text-[#b4632e]">
                             {product.price.toLocaleString()} ₽
                             </span>
@@ -193,7 +193,7 @@ export default function Show({ product, favoriteProductIds }: ShowProps) {
                                 >
                                 -
                                 </button>
-                                <span className="px-4 py-1 min-w-[3rem] text-center">{quantity}</span>
+                                <span className="px-4! py-1! min-w-12 text-center">{quantity}</span>
                                 <button
                                 onClick={() => handleQuantityChange(Math.min(product.stock, quantity + 1))}
                                 className="px-3 py-1 border-l hover:bg-gray-100"
@@ -205,21 +205,21 @@ export default function Show({ product, favoriteProductIds }: ShowProps) {
                             <button
                                 onClick={handleAddToCart}
                                 disabled={processing || product.stock === 0}
-                                className="bg-[#b4632e] text-white px-6 py-2 rounded-md hover:bg-[#9a4f24] transition disabled:bg-gray-400"
+                                className="bg-[#b4632e] text-white px-6! py-2! rounded-md hover:bg-[#9a4f24] transition disabled:bg-gray-400"
                             >
                                 {processing ? 'Добавление...' : 'В корзину'}
                             </button>
                             </div>
                         </div>
                         {addedToCart && (
-                            <div className="text-green-600 text-sm mt-2">✓ Товар добавлен в корзину</div>
+                            <div className="text-green-600 text-sm mt-2!">✓ Товар добавлен в корзину</div>
                         )}
                     </div>
 
                     {/* Быстрые характеристики (первые 4) */}
                     {quickAttributes.length > 0 && (
-                    <div className="border-t pt-4 mt-4">
-                        <h3 className="font-medium text-gray-700 mb-2">Краткие характеристики</h3>
+                    <div className="border-t pt-4! mt-4!">
+                        <h3 className="font-medium text-gray-700 mb-2!">Краткие характеристики</h3>
                         <div className="grid grid-cols-1 gap-y-1 text-sm">
                         {quickAttributes.map((attr) => (
                             <div key={attr.id} className="flex justify-between">
@@ -235,11 +235,11 @@ export default function Show({ product, favoriteProductIds }: ShowProps) {
             </div>
 
             {/* Вкладки с полными характеристиками и описанием */}
-            <div className="mt-12 pt-6">
-            <div className="flex gap-6 border-b mb-4">
+            <div className="mt-12! pt-6!">
+            <div className="flex gap-6 border-b mb-4!">
                 <button
                 onClick={() => setActiveTab('characteristics')}
-                className={`pb-2 text-lg font-medium transition ${
+                className={`pb-2! text-lg font-medium transition ${
                     activeTab === 'characteristics'
                     ? 'text-[#b4632e] border-b-2 border-[#b4632e]'
                     : 'text-gray-500 hover:text-gray-700'
@@ -250,7 +250,7 @@ export default function Show({ product, favoriteProductIds }: ShowProps) {
                 {product.description && (
                 <button
                     onClick={() => setActiveTab('description')}
-                    className={`pb-2 text-lg font-medium transition ${
+                    className={`pb-2! text-lg font-medium transition ${
                     activeTab === 'description'
                         ? 'text-[#b4632e] border-b-2 border-[#b4632e]'
                         : 'text-gray-500 hover:text-gray-700'
@@ -262,15 +262,15 @@ export default function Show({ product, favoriteProductIds }: ShowProps) {
             </div>
 
             {activeTab === 'characteristics' && attributes.length > 0 && (
-                <div className="rounded-lg p-6">
+                <div className="rounded-lg p-6!">
                 <table className="w-full text-sm">
                     <tbody>
                     {attributes.map((attr) => (
                         <tr key={attr.id} className="border-b last:border-0">
-                        <td className="py-3 font-medium w-1/3 text-gray-600">
+                        <td className="py-3! font-medium w-1/3 text-gray-600">
                             {attr.attribute.name}
                         </td>
-                        <td className="py-3 text-gray-800">{attr.value}</td>
+                        <td className="py-3! text-gray-800">{attr.value}</td>
                         </tr>
                     ))}
                     </tbody>
@@ -279,7 +279,7 @@ export default function Show({ product, favoriteProductIds }: ShowProps) {
             )}
 
             {activeTab === 'description' && product.description && (
-                <div className="p-6 prose max-w-none text-gray-700">
+                <div className="p-6! prose max-w-none text-gray-700">
                 {product.description}
                 </div>
             )}

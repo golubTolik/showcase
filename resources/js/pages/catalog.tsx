@@ -1,5 +1,5 @@
 import { Link, router, usePage } from '@inertiajs/react';
-import React, { useState, useMemo, useEffect } from "react";
+import React, { useState, useMemo, useEffect, useRef } from "react";
 import { route } from "ziggy-js";
 import Alert from '@/components/layout/alert';
 import Footer from "@/components/layout/footer";
@@ -46,6 +46,7 @@ interface ProductWithDetails {
 interface CatalogProps {
     categories: Category[];
     products: ProductWithDetails[];
+    selectedCategoryId?: number | null;
 }
 
 // Преобразует product_attribute_values в простой массив
@@ -166,16 +167,157 @@ function getAvailableAttributeOptions(products: ProductWithDetails[]): Map<numbe
     return result;
 }
 
-export default function Catalog({ categories, products }: CatalogProps) {
+const STORAGE_KEYS = {
+    ROOT_CATEGORY: 'catalog_root_category_id',
+    SUB_CATEGORY: 'catalog_subcategory_id',
+    PRICE_MIN: 'catalog_price_min',
+    PRICE_MAX: 'catalog_price_max',
+    ATTRIBUTE_FILTERS: 'catalog_attribute_filters',
+    };
+
+    function saveAttributeFilters(filters: Map<number, Set<number>>) {
+    const obj: Record<number, number[]> = {};
+
+    for (const [attrId, set] of filters.entries()) {
+        obj[attrId] = Array.from(set);
+    }
+
+    localStorage.setItem(STORAGE_KEYS.ATTRIBUTE_FILTERS, JSON.stringify(obj));
+}
+
+    function loadAttributeFilters(): Map<number, Set<number>> {
+    const raw = localStorage.getItem(STORAGE_KEYS.ATTRIBUTE_FILTERS);
+
+    if (!raw) {
+        return new Map();
+    }
+
+    try {
+        const obj = JSON.parse(raw) as Record<number, number[]>;
+        const map = new Map<number, Set<number>>();
+
+        for (const [attrId, arr] of Object.entries(obj)) {
+        map.set(Number(attrId), new Set(arr));
+        }
+
+        return map;
+    } catch {
+        return new Map();
+    }
+}
+
+export default function Catalog({ categories, products, selectedCategoryId }: CatalogProps) {
     const { flash } = usePage().props as { flash?: { success?: string; error?: string; info?: string }};
 
     const { roots, childrenMap } = buildCategoryTree(categories);
 
-    const [selectedRootCategory, setSelectedRootCategory] = useState<Category | null>(null);
-    const [selectedSubcategoryId, setSelectedSubcategoryId] = useState<number | null>(null);
-    const [priceMin, setPriceMin] = useState<number>(0);
-    const [priceMax, setPriceMax] = useState<number>(100000);
-    const [selectedAttributeFilters, setSelectedAttributeFilters] = useState<Map<number, Set<number>>>(new Map());
+    const [selectedRootCategory, setSelectedRootCategory] = useState<Category | null>(() => {
+        // сначала из переданного параметра
+        if (selectedCategoryId) {
+            const found = categories.find(c => c.id === Number(selectedCategoryId));
+
+            if (found) {
+                return found;
+            }
+        }
+        // потом из localStorage
+
+        const savedId = localStorage.getItem(STORAGE_KEYS.ROOT_CATEGORY);
+
+        if (savedId) {
+            return categories.find(c => c.id === Number(savedId)) || null;
+        }
+
+        return null;
+    });
+
+
+    // Инициализация состояний из localStorage
+    // const [selectedRootCategory, setSelectedRootCategory] = useState<Category | null>(() => {
+    //     const savedId = localStorage.getItem(STORAGE_KEYS.ROOT_CATEGORY);
+
+    //     if (savedId) {
+    //         const found = categories.find(c => c.id === Number(savedId));
+
+    //         if (found) {
+    //             return found;
+    //         }
+    //     }
+
+    //     return null;
+    // });
+
+    const [selectedSubcategoryId, setSelectedSubcategoryId] = useState<number | null>(() => {
+        const saved = localStorage.getItem(STORAGE_KEYS.SUB_CATEGORY);
+
+        return saved ? Number(saved) : null;
+    });
+
+    const [priceMin, setPriceMin] = useState<number>(() => {
+        const saved = localStorage.getItem(STORAGE_KEYS.PRICE_MIN);
+
+        return saved ? Number(saved) : 0;
+    });
+
+    const [priceMax, setPriceMax] = useState<number>(() => {
+        const saved = localStorage.getItem(STORAGE_KEYS.PRICE_MAX);
+
+        return saved ? Number(saved) : 100000;
+    });
+
+    const [selectedAttributeFilters, setSelectedAttributeFilters] = useState<Map<number, Set<number>>>(() => {
+        return loadAttributeFilters();
+    });
+
+    const isFirstRender = useRef(true);
+
+    // Сохранение в localStorage
+    useEffect(() => {
+        if (isFirstRender.current) {
+            return;
+        }
+
+        if (selectedRootCategory) {
+            localStorage.setItem(STORAGE_KEYS.ROOT_CATEGORY, String(selectedRootCategory.id));
+        } else {
+            localStorage.removeItem(STORAGE_KEYS.ROOT_CATEGORY);
+        }
+    }, [selectedRootCategory]);
+
+    useEffect(() => {
+        if (isFirstRender.current) {
+            return;
+        }
+
+        if (selectedSubcategoryId !== null) {
+            localStorage.setItem(STORAGE_KEYS.SUB_CATEGORY, String(selectedSubcategoryId));
+        } else {
+            localStorage.removeItem(STORAGE_KEYS.SUB_CATEGORY);
+        }
+    }, [selectedSubcategoryId]);
+
+    useEffect(() => {
+        if (isFirstRender.current) {
+            return;
+        }
+
+        localStorage.setItem(STORAGE_KEYS.PRICE_MIN, String(priceMin));
+        localStorage.setItem(STORAGE_KEYS.PRICE_MAX, String(priceMax));
+    }, [priceMin, priceMax]);
+
+    useEffect(() => {
+        if (isFirstRender.current) {
+            return;
+        }
+
+        saveAttributeFilters(selectedAttributeFilters);
+    }, [selectedAttributeFilters]);
+
+    // const [selectedRootCategory, setSelectedRootCategory] = useState<Category | null>(null);
+    // const [selectedSubcategoryId, setSelectedSubcategoryId] = useState<number | null>(null);
+    // const [priceMin, setPriceMin] = useState<number>(0);
+    // const [priceMax, setPriceMax] = useState<number>(100000);
+    // const [selectedAttributeFilters, setSelectedAttributeFilters] = useState<Map<number, Set<number>>>(new Map());
 
     const currentSubcategories = useMemo(() => {
         if (!selectedRootCategory) {
@@ -191,7 +333,7 @@ export default function Catalog({ categories, products }: CatalogProps) {
         }
 
         if (selectedSubcategoryId !== null) {
-        return getAllCategoryIds(selectedSubcategoryId, childrenMap);
+            return getAllCategoryIds(selectedSubcategoryId, childrenMap);
         }
 
         return getAllCategoryIds(selectedRootCategory.id, childrenMap);
@@ -295,16 +437,16 @@ export default function Catalog({ categories, products }: CatalogProps) {
 
         <Alert flash={flash} autoCloseDelay={5000} />
 
-        <main className="container mx-auto px-4 py-8 min-h-[100vh]">
+        <main className="container mx-auto! px-4! py-8! min-h-screen">
             {/* Грид родительских категорий */}
-            <div className="!mb-10">
-            <h2 className="text-2xl  !mb-4 !mt-4 font-[Gabriela]">Категории</h2>
+            <div className="mb-10!">
+            <h2 className="text-2xl  mb-4! mt-4! font-[Gabriela]">Категории</h2>
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
                 {roots.map(cat => (
                 <div
                     key={cat.id}
                     onClick={() => handleRootCategoryClick(cat)}
-                    className={`cursor-pointer rounded-lg border !p-4 text-center transition-all hover:shadow-lg ${
+                    className={`cursor-pointer rounded-lg border p-4! text-center transition-all hover:shadow-lg ${
                     selectedRootCategory?.id === cat.id
                         ? "border-[#B18B72] bg-[#f1e3d7] shadow-md"
                         : "border-[#f2e3d6] bg-white"
@@ -319,9 +461,9 @@ export default function Catalog({ categories, products }: CatalogProps) {
             {selectedRootCategory ? (
             <div className="flex flex-col md:flex-row gap-8">
                 {/* Левая панель фильтров */}
-                <aside className="w-full md:w-72 flex-shrink-0 space-y-6">
-                <div className="bg-white rounded-lg border !p-4">
-                    <h3 className="font-semibold text-lg !mb-3">Цена</h3>
+                <aside className="w-full md:w-72 shrink-0 space-y-6">
+                <div className="bg-white rounded-lg border p-4! mb-4!">
+                    <h3 className="font-semibold text-lg mb-3!">Цена</h3>
                     <div className="space-y-2">
                     <div className="flex justify-between text-sm">
                         <span>от {priceMin} ₽</span>
@@ -348,25 +490,25 @@ export default function Catalog({ categories, products }: CatalogProps) {
                         type="number"
                         value={priceMin}
                         onChange={(e) => setPriceMin(Number(e.target.value))}
-                        className="w-24 border rounded px-2 py-1 text-sm"
+                        className="w-24 border rounded px-2! py-1! text-sm"
                         />
                         <input
                         type="number"
                         value={priceMax}
                         onChange={(e) => setPriceMax(Number(e.target.value))}
-                        className="w-24 border rounded px-2 py-1 text-sm"
+                        className="w-24 border rounded px-2! py-1! text-sm"
                         />
                     </div>
                     </div>
                 </div>
                     {availableAttributes.size === 0 ? (
-                        <div className="bg-white rounded-lg border p-4">
+                        <div className="bg-white rounded-lg border p-4!">
                             <p className="text-gray-500">Нет доступных фильтров</p>
                         </div>
                         ) : (
                         Array.from(availableAttributes.entries()).map(([attrId, { attribute, options }]) => (
-                            <div key={attrId} className="bg-white rounded-lg border !p-4">
-                            <h3 className="font-semibold text-lg !mb-3">{attribute.name}</h3>
+                            <div key={attrId} className="bg-white rounded-lg border p-4!">
+                            <h3 className="font-semibold text-lg mb-3!">{attribute.name}</h3>
                             <div className="space-y-2 max-h-60 overflow-y-auto">
                                 {options.map(opt => (
                                 <label key={opt.id} className="flex items-center gap-2">
@@ -390,11 +532,11 @@ export default function Catalog({ categories, products }: CatalogProps) {
 
                 {/* Правая часть: подкатегории + товары */}
                 <div className="flex-1">
-                <div className="!mb-6">
-                    <div className="flex flex-wrap gap-2 border-b !pb-2">
+                <div className="mb-6!">
+                    <div className="flex flex-wrap gap-2 border-b pb-2!">
                     <button
                         onClick={() => handleSubcategoryClick(null)}
-                        className={`!px-3 !py-1 rounded-full text-sm transition ${
+                        className={`px-3! py-1! rounded-full text-sm transition ${
                         selectedSubcategoryId === null
                             ? "bg-[#B18B72] text-white"
                             : "bg-gray-100 hover:bg-gray-200"
@@ -406,7 +548,7 @@ export default function Catalog({ categories, products }: CatalogProps) {
                         <button
                         key={sub.id}
                         onClick={() => handleSubcategoryClick(sub.id)}
-                        className={`!px-3 !py-1 rounded-full text-sm transition ${
+                        className={`px-3! py-1! rounded-full text-sm transition ${
                             selectedSubcategoryId === sub.id
                             ? "bg-[#B18B72] text-white"
                             : "bg-gray-100 hover:bg-gray-200"
@@ -419,7 +561,7 @@ export default function Catalog({ categories, products }: CatalogProps) {
                 </div>
 
                 {filteredProducts.length === 0 ? (
-                    <div className="text-center !py-12 text-gray-500">Товары не найдены</div>
+                    <div className="text-center py-12! text-gray-500">Товары не найдены</div>
                 ) : (
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                     {filteredProducts.map(product => {
@@ -445,21 +587,21 @@ export default function Catalog({ categories, products }: CatalogProps) {
                                 )}
                                 </Link>
                             </div>
-                            <div className="product-info !px-5 pt-[18px] pb-[22px]">
+                            <div className="product-info px-5! pt-4.5! pb-5.5!">
                                 <div className="product-title text-xl font-semibold mb-2">
                                 {product.name}
                                 </div>
-                                <div className="product-desc text-sm text-[#7c6957] !mb-4 leading-relaxed">
+                                <div className="product-desc text-sm text-[#7c6957] mb-4! leading-relaxed">
                                 {product.description}
                                 </div>
-                                <div className="price-row flex justify-between items-baseline !mt-2">
+                                <div className="price-row flex justify-between items-baseline mt-2!">
                                 <div>
                                     <span className="price font-bold text-[1.4rem] text-[#b4632e]">
                                     {product.price} ₽
                                     </span>
                                 </div>
                                 <button
-                                    className="btn-cart bg-[#f3ede7] border-none !py-2 !px-4 rounded-full font-medium cursor-pointer transition-colors duration-200 text-sm hover:bg-[#e7d9ce] hover:text-[#a35f34]"
+                                    className="btn-cart bg-[#f3ede7] border-none py-2! px-4! rounded-full font-medium cursor-pointer transition-colors duration-200 text-sm hover:bg-[#e7d9ce] hover:text-[#a35f34]"
                                     data-id={product.id}
                                     data-name={product.name}
                                     onClick={() => handleAddToCart(product.id, product.name)}

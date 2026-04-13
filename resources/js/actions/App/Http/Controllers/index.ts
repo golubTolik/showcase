@@ -3,6 +3,7 @@ import ProductController from './ProductController'
 import CartController from './CartController'
 import OrderController from './OrderController'
 import FavoriteController from './FavoriteController'
+import SubscribeController from './SubscribeController'
 import UserController from './UserController'
 const Controllers = {
     PageController: Object.assign(PageController, PageController),
@@ -10,6 +11,7 @@ ProductController: Object.assign(ProductController, ProductController),
 CartController: Object.assign(CartController, CartController),
 OrderController: Object.assign(OrderController, OrderController),
 FavoriteController: Object.assign(FavoriteController, FavoriteController),
+SubscribeController: Object.assign(SubscribeController, SubscribeController),
 UserController: Object.assign(UserController, UserController),
 }
 
