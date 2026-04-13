@@ -1,4 +1,4 @@
-import { useForm } from '@inertiajs/react';
+import { useForm, router  } from '@inertiajs/react';
 import { useState } from 'react';
 import { route } from "ziggy-js";
 import Footer from '@/components/layout/footer';
@@ -37,13 +37,14 @@ interface Product {
 
 interface ShowProps {
   product: Product;
+  favoriteProductIds: number[];
 }
 
-export default function Show({ product }: ShowProps) {
+export default function Show({ product, favoriteProductIds }: ShowProps) {
   const [selectedImage, setSelectedImage] = useState<string>(
     product.images[0]?.image_url || ''
   );
-  const [isFavorite, setIsFavorite] = useState(false);
+//   const [isFavorite, setIsFavorite] = useState(false);
   const [quantity, setQuantity] = useState(1);
   const [addedToCart, setAddedToCart] = useState(false);
   const [activeTab, setActiveTab] = useState<'characteristics' | 'description'>('characteristics');
@@ -71,12 +72,29 @@ export default function Show({ product }: ShowProps) {
     });
   };
 
-  const toggleFavorite = () => {
-    setIsFavorite(!isFavorite);
-  };
+//   const toggleFavorite = () => {
+//     setIsFavorite(!isFavorite);
+//   };
 
   const attributes = product.product_attribute_values.map((pav) => pav.attribute_value);
   const quickAttributes = attributes.slice(0, 4);
+
+    const [isFavorite, setIsFavorite] = useState(favoriteProductIds.includes(product.id));
+    // const [favoriteId, setFavoriteId] = useState<number | null>(null);
+
+    const toggleFavorite = () => {
+        if (isFavorite) {
+            router.delete(route('favorites.destroyByProduct', product.id), {
+                preserveScroll: true,
+                onSuccess: () => setIsFavorite(false),
+            });
+        } else {
+            router.post(route('favorites.store'), { product_id: product.id }, {
+                preserveScroll: true,
+                onSuccess: () => setIsFavorite(true),
+            });
+        }
+    };
 
   return (
     <>
@@ -122,7 +140,7 @@ export default function Show({ product }: ShowProps) {
                     <h1 className="text-3xl font-bold">{product.name}</h1>
                     <button
                         onClick={toggleFavorite}
-                        className={`flex items-center gap-2 px-4 py-2 rounded-full border transition ${
+                        className={`flex cursor-pointer items-center gap-2 px-4 py-2 rounded-full border transition ${
                         isFavorite
                             ? 'bg-red-50 border-[#b4632e] text-[#b4632e]'
                             : 'bg-white border-gray-300 text-gray-700 hover:border-[#b4632e] hover:text-[#b4632e]'

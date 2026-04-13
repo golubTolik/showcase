@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PageController;
 
@@ -28,6 +29,12 @@ Route::prefix('cart')->name('cart.')->group(function () {
     Route::delete('/item/{cartItem}', [CartController::class, 'destroy'])->name('destroy');
 });
 Route::post('/order', [OrderController::class, 'store'])->name('order.store');
+Route::middleware('auth')->group(function () {
+    Route::get('/favorites', [FavoriteController::class, 'index'])->name('favorites.index');
+    Route::post('/favorites', [FavoriteController::class, 'store'])->name('favorites.store');
+    Route::delete('/favorites/{favorite}', [FavoriteController::class, 'destroy'])->name('favorites.destroy');
+    Route::delete('/favorites/product/{product}', [FavoriteController::class, 'destroyByProduct'])->name('favorites.destroyByProduct');
+});
 
 Route::post('/login', [UserController::class, 'login'])->name('login');
 Route::post('/registration', [UserController::class, 'registration'])->name('registration');

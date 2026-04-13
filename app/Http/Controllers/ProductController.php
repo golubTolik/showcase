@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use Illuminate\Support\Facades\Auth;
 
 class ProductController extends Controller
 {
@@ -38,9 +39,15 @@ class ProductController extends Controller
     public function show(Product $product)
     {
         $fullProduct = $product->load(['images', 'product_attribute_values.attribute_value.attribute']);
+        // Получаем ID избранных товаров текущего пользователя (если авторизован)
+        $favoriteProductIds = [];
+        if (Auth::check()) {
+            $favoriteProductIds = Auth::user()->favorites()->pluck('product_id')->toArray();
+        }
 
         return Inertia::render('Products/show', [
             'product' => $fullProduct,
+            'favoriteProductIds' => $favoriteProductIds, // отдельный пропс
         ]);
     }
 

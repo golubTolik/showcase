@@ -1,6 +1,7 @@
 // resources/js/Components/CheckoutForm.tsx
 import { useForm } from '@inertiajs/react';
 import { route } from 'ziggy-js';
+import '../../css/checkoutForm.css';
 
 interface CheckoutFormProps {
   totalPrice: number;
@@ -24,7 +25,6 @@ export default function CheckoutForm({ totalPrice, onSuccess }: CheckoutFormProp
       preserveScroll: true,
       onSuccess: () => {
         onSuccess();
-        // Можно также очистить корзину или показать сообщение
       },
     });
   };
@@ -43,7 +43,7 @@ export default function CheckoutForm({ totalPrice, onSuccess }: CheckoutFormProp
           className="w-full border rounded-lg px-3! py-2!"
           required
         />
-        {errors.full_name && <div className="text-red-500 text-sm">{errors.full_name}</div>}
+        {errors.full_name && <div className="field-error text-sm">{errors.full_name}</div>}
       </div>
 
       <div>
@@ -55,7 +55,7 @@ export default function CheckoutForm({ totalPrice, onSuccess }: CheckoutFormProp
           className="w-full border rounded-lg px-3! py-2!"
           required
         />
-        {errors.phone && <div className="text-red-500 text-sm">{errors.phone}</div>}
+        {errors.phone && <div className="field-error text-sm">{errors.phone}</div>}
       </div>
 
       <div>
@@ -67,7 +67,7 @@ export default function CheckoutForm({ totalPrice, onSuccess }: CheckoutFormProp
           className="w-full border rounded-lg px-3! py-2!"
           required
         />
-        {errors.email && <div className="text-red-500 text-sm">{errors.email}</div>}
+        {errors.email && <div className="field-error text-sm">{errors.email}</div>}
       </div>
 
       <div>
@@ -92,7 +92,7 @@ export default function CheckoutForm({ totalPrice, onSuccess }: CheckoutFormProp
             onChange={e => setData('address', e.target.value)}
             className="w-full border rounded-lg px-3! py-2!"
           />
-          {errors.address && <div className="text-red-500 text-sm">{errors.address}</div>}
+          {errors.address && <div className="field-error text-sm">{errors.address}</div>}
         </div>
       )}
 

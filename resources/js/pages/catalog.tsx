@@ -48,11 +48,18 @@ interface CatalogProps {
 // Преобразует product_attribute_values в простой массив
 
 function getAttributeValues(product: ProductWithDetails) {
-  if (!product.product_attribute_values) return [];
+  if (!product.product_attribute_values) {
+    return [];
+}
+
   return product.product_attribute_values
     .map(pav => {
       const attrValues = pav.attribute_value;
-      if (!attrValues || !attrValues.attribute) return null;
+
+      if (!attrValues || !attrValues.attribute) {
+        return null;
+    }
+
       return {
         id: pav.id,
         attribute_value_id: pav.attribute_value_id,
@@ -67,9 +74,11 @@ function getAttributeValues(product: ProductWithDetails) {
 function getAllCategoryIds(rootId: number, childrenMap: Map<number, Category[]>): number[] {
   const result = [rootId];
   const children = childrenMap.get(rootId) || [];
+
   for (const child of children) {
     result.push(...getAllCategoryIds(child.id, childrenMap));
   }
+
   return result;
 }
 
@@ -82,16 +91,26 @@ function filterProducts(
   selectedAttributeFilters: Map<number, Set<number>>
 ): ProductWithDetails[] {
   return products.filter(p => {
-    if (!allowedCategoryIds.includes(p.category_id)) return false;
-    if (p.price < priceMin || p.price > priceMax) return false;
+    if (!allowedCategoryIds.includes(p.category_id)) {
+        return false;
+    }
+
+    if (p.price < priceMin || p.price > priceMax) {
+        return false;
+    }
 
     const attrs = getAttributeValues(p);
+
     for (const [attrId, selectedValueIds] of selectedAttributeFilters.entries()) {
         const productAttrValues = attrs.filter(av => av.attribute?.id === attrId);
         const productValueIds = productAttrValues.map(av => av.attribute_value_id);
       const hasAnySelected = selectedValueIds.size === 0 || productValueIds.some(id => selectedValueIds.has(id));
-      if (!hasAnySelected) return false;
+
+      if (!hasAnySelected){
+        return false;
     }
+    }
+
     return true;
   });
 }
@@ -102,35 +121,45 @@ function getAvailableAttributeOptions(products: ProductWithDetails[]): Map<numbe
 
   for (const product of products) {
     const attrs = getAttributeValues(product);
+
     for (const av of attrs) {
-        if (!av.attribute) continue;
+        if (!av.attribute) {
+            continue;
+        }
+
         if (!attrMap.has(av.attribute.id)) {
             attrMap.set(av.attribute.id, {
             attribute: av.attribute,
             options: new Set()
             });
         }
+
         attrMap.get(av.attribute.id)!.options.add(av.attribute_value_id);
     }
   }
 
   const result = new Map();
+
   for (const [attrId, { attribute, options }] of attrMap.entries()) {
     const valueMap = new Map<number, string>();
+
     for (const product of products) {
       const attrs = getAttributeValues(product);
+
       for (const av of attrs) {
         if (av.attribute.id === attrId && !valueMap.has(av.attribute_value_id)) {
           valueMap.set(av.attribute_value_id, av.value);
         }
       }
     }
+
     const fullOptions = Array.from(options).map(optId => ({
       id: optId,
       value: valueMap.get(optId) || ""
     }));
     result.set(attrId, { attribute, options: fullOptions });
   }
+
   return result;
 }
 
@@ -144,20 +173,30 @@ export default function Catalog({ categories, products }: CatalogProps) {
   const [selectedAttributeFilters, setSelectedAttributeFilters] = useState<Map<number, Set<number>>>(new Map());
 
   const currentSubcategories = useMemo(() => {
-    if (!selectedRootCategory) return [];
+    if (!selectedRootCategory) {
+        return [];
+    }
+
     return childrenMap.get(selectedRootCategory.id) || [];
   }, [selectedRootCategory, childrenMap]);
 
   const allowedCategoryIds = useMemo(() => {
-    if (!selectedRootCategory) return [];
+    if (!selectedRootCategory) {
+        return [];
+    }
+
     if (selectedSubcategoryId !== null) {
       return getAllCategoryIds(selectedSubcategoryId, childrenMap);
     }
+
     return getAllCategoryIds(selectedRootCategory.id, childrenMap);
   }, [selectedRootCategory, selectedSubcategoryId, childrenMap]);
 
   const categoryProducts = useMemo(() => {
-    if (allowedCategoryIds.length === 0) return [];
+    if (allowedCategoryIds.length === 0) {
+        return [];
+    }
+
     return products.filter(p => allowedCategoryIds.includes(p.category_id));
   }, [allowedCategoryIds, products]);
   console.log('categoryProducts:', categoryProducts);
@@ -168,8 +207,12 @@ export default function Catalog({ categories, products }: CatalogProps) {
   }, [categoryProducts]);
 
   const priceBounds = useMemo(() => {
-    if (categoryProducts.length === 0) return { min: 0, max: 1000 };
+    if (categoryProducts.length === 0) {
+        return { min: 0, max: 1000 };
+    }
+
     const prices = categoryProducts.map(p => p.price);
+
     return { min: Math.min(...prices), max: Math.max(...prices) };
   }, [categoryProducts]);
 
@@ -180,7 +223,10 @@ export default function Catalog({ categories, products }: CatalogProps) {
   }, [priceBounds.min, priceBounds.max, selectedRootCategory, selectedSubcategoryId]);
 
   const filteredProducts = useMemo(() => {
-    if (allowedCategoryIds.length === 0) return [];
+    if (allowedCategoryIds.length === 0) {
+        return [];
+    }
+
     return filterProducts(products, allowedCategoryIds, priceMin, priceMax, selectedAttributeFilters);
   }, [products, allowedCategoryIds, priceMin, priceMax, selectedAttributeFilters]);
 
@@ -197,14 +243,20 @@ export default function Catalog({ categories, products }: CatalogProps) {
     setSelectedAttributeFilters(prev => {
       const newMap = new Map(prev);
       const currentSet = newMap.get(attrId) || new Set<number>();
+
       if (currentSet.has(optionId)) {
         currentSet.delete(optionId);
-        if (currentSet.size === 0) newMap.delete(attrId);
-        else newMap.set(attrId, currentSet);
+
+        if (currentSet.size === 0) {
+            newMap.delete(attrId);
+        } else{
+            newMap.set(attrId, currentSet);
+        }
       } else {
         currentSet.add(optionId);
         newMap.set(attrId, currentSet);
       }
+      
       return newMap;
     });
   };

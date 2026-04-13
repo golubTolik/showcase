@@ -1,11 +1,12 @@
 import { Link, useForm, router, usePage } from '@inertiajs/react';
 import { useState, useEffect } from 'react';
 import { route } from "ziggy-js";
+import CheckoutForm from '@/components/CheckoutForm';
 import Footer from '@/components/layout/footer';
 import Navbar from '@/components/layout/Navbar';
 import ModalWindow from '@/components/modal/modalWindow';
+import { Badge } from "@/components/ui/badge"
 import { asset } from '@/utils/helper';
-import CheckoutForm from '@/components/CheckoutForm';
 
 interface CartItem {
     id: number;
@@ -120,12 +121,19 @@ export default function CartIndex({ cartItems, totalPrice }: Props) {
                                             </button>
                                         </div>
                                         <div className="font-bold">{(item.price * item.quantity).toLocaleString()} ₽</div>
-                                        <button
+                                        {/* <button
                                             onClick={() => removeItem(item.id)}
                                             className="text-sm text-red-500 hover:underline"
                                         >
                                             Удалить из корзины
-                                        </button>
+                                        </button> */}
+                                        <Badge
+                                            onClick={() => removeItem(item.id)}
+                                            variant="destructive"
+                                            className="cursor-pointer hover:bg-red-500 hover:text-white"
+                                        >
+                                            Удалить из корзины
+                                        </Badge>
                                     </div>
                                 </div>
                             ))}
