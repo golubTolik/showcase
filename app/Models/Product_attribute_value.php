@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Product_attribute_value extends Model
 {
+    protected $fillable = ['product_id', 'attribute_value_id'];
+    
     public function product(){
         return $this->belongsTo(Product::class);
     }

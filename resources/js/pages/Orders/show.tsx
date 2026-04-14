@@ -83,7 +83,7 @@ export default function OrdersShow({ order }: Props) {
                                 <h1 className="text-2xl font-bold">Заказ №{order.id}</h1>
                                 <p className="text-gray-500">{order.created_at}</p>
                             </div>
-                            <div className={`px-3! py-1! rounded-full text-sm font-medium ${getStatusColor(order.status)}`}>
+                            <div className={`px-3! py-1! border rounded-full text-sm font-medium ${getStatusColor(order.status)}`}>
                                 {getStatusText(order.status)}
                             </div>
                         </div>

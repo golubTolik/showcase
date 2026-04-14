@@ -12,6 +12,9 @@ use App\Http\Controllers\SubscribeController;
 // use App\Models\Product;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use App\Http\Controllers\Admin\AdminOrderController;
+use App\Http\Controllers\Admin\AdminCategoryController;
+use App\Http\Controllers\Admin\AdminProductController;
 
 
 Route::get('/',[PageController::class, 'index'])->name('index');
@@ -54,3 +57,16 @@ Route::post('/login', [UserController::class, 'login'])->name('login');
 Route::post('/registration', [UserController::class, 'registration'])->name('registration');
 Route::post('/logout', [UserController::class, 'logout'])->name('logout');
 
+Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
+    // Заказы
+    Route::get('/orders', [AdminOrderController::class, 'index'])->name('orders.index');
+    Route::patch('/orders/{order}/status', [AdminOrderController::class, 'updateStatus'])->name('orders.update-status');
+
+    // Категории
+    Route::resource('categories', AdminCategoryController::class)->except(['show']);
+
+    // Товары
+    Route::resource('products', AdminProductController::class);
+    Route::post('/products/{product}/images', [AdminProductController::class, 'uploadImage'])->name('products.upload-image');
+    Route::delete('/products/images/{image}', [AdminProductController::class, 'deleteImage'])->name('products.delete-image');
+});
