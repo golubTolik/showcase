@@ -3727,6 +3727,14 @@ namespace App\Models {
     /**
      * App\Models\Subscriber
      *
+     * @property \Illuminate\Support\Carbon|null $updated_at
+     * @property \Illuminate\Support\Carbon|null $created_at
+     * @property string $email
+     * @property int $id
+     * @method static \Illuminate\Database\Eloquent\Builder<Subscriber>|Subscriber whereId($value)
+     * @method static \Illuminate\Database\Eloquent\Builder<Subscriber>|Subscriber whereEmail($value)
+     * @method static \Illuminate\Database\Eloquent\Builder<Subscriber>|Subscriber whereCreatedAt($value)
+     * @method static \Illuminate\Database\Eloquent\Builder<Subscriber>|Subscriber whereUpdatedAt($value)
      * @method static \Illuminate\Database\Eloquent\Builder<Subscriber>|Subscriber newModelQuery()
      * @method static \Illuminate\Database\Eloquent\Builder<Subscriber>|Subscriber newQuery()
      * @method static \Illuminate\Database\Eloquent\Builder<Subscriber>|Subscriber query()

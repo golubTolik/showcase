@@ -17,7 +17,24 @@ class OrderController extends Controller
      */
     public function index()
     {
-        //
+        $user = Auth::user();
+        $orders = $user->orders()
+            ->with('items.product.images')
+            ->orderBy('created_at', 'desc')
+            ->get()
+            ->map(function ($order) {
+                return [
+                    'id' => $order->id,
+                    'created_at' => $order->created_at->format('d.m.Y H:i'),
+                    'status' => $order->status,
+                    'total_price' => $order->total_price,
+                    'items_count' => $order->items->sum('quantity'),
+                ];
+            });
+
+        return Inertia::render('Orders/index', [
+            'orders' => $orders,
+        ]);
     }
 
     /**
@@ -116,7 +133,42 @@ class OrderController extends Controller
      */
     public function show(Order $order)
     {
-        //
+        // Проверяем, что заказ принадлежит текущему пользователю
+        if ($order->user_id !== Auth::id()) {
+            abort(403);
+        }
+
+        $order->load('items.product.images');
+
+        $orderData = [
+            'id' => $order->id,
+            'created_at' => $order->created_at->format('d.m.Y H:i'),
+            'full_name' => $order->full_name,
+            'phone' => $order->phone,
+            'email' => $order->email,
+            'delivery_type' => $order->delivery_type,
+            'address' => $order->address,
+            'payment_method' => $order->payment_method,
+            'status' => $order->status,
+            'total_price' => $order->total_price,
+            'comment' => $order->comment,
+            'items' => $order->items->map(function ($item) {
+                $product = $item->product;
+                return [
+                    'id' => $item->id,
+                    'product_id' => $product->id,
+                    'name' => $product->name,
+                    'quantity' => $item->quantity,
+                    'price_at_time' => $item->price_at_time,
+                    'total' => $item->quantity * $item->price_at_time,
+                    'image' => $product->images->first()?->image_url,
+                ];
+            }),
+        ];
+
+        return Inertia::render('Orders/show', [
+            'order' => $orderData,
+        ]);
     }
 
     /**

@@ -22,10 +22,14 @@ const UserProfileDropdown = ({ user }: { user: { name: string } }) => (
     </DropdownMenuTrigger>
     <DropdownMenuContent className="z-200" style={{ padding: "4px", backgroundColor: "#fefaf5" }}>
       <DropdownMenuItem className="pl-1 pr-1" style={{ padding: "4px 6px" }}>
-        <UserIcon /> Профиль
+        <Link href={route('profile.edit')} className="flex items-center gap-2 w-full">
+            <UserIcon /> Профиль
+        </Link>
       </DropdownMenuItem>
       <DropdownMenuItem style={{ padding: "4px 6px" }}>
-        <CreditCardIcon /> Billing
+        <Link href={route('orders.index')} className="flex items-center gap-2 w-full">
+            <CreditCardIcon /> Мои заказы
+        </Link>
       </DropdownMenuItem>
       <DropdownMenuItem style={{ padding: "4px 6px" }}>
         <SettingsIcon /> Settings

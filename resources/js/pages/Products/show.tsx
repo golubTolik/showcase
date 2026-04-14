@@ -189,14 +189,14 @@ export default function Show({ product, favoriteProductIds }: ShowProps) {
                             <div className="flex border rounded-md">
                                 <button
                                 onClick={() => handleQuantityChange(Math.max(1, quantity - 1))}
-                                className="px-3 py-1 border-r hover:bg-gray-100"
+                                className="px-3! py-1! border-r hover:bg-gray-100"
                                 >
                                 -
                                 </button>
                                 <span className="px-4! py-1! min-w-12 text-center">{quantity}</span>
                                 <button
                                 onClick={() => handleQuantityChange(Math.min(product.stock, quantity + 1))}
-                                className="px-3 py-1 border-l hover:bg-gray-100"
+                                className="px-3! py-1! border-l hover:bg-gray-100"
                                 disabled={quantity >= product.stock}
                                 >
                                 +
