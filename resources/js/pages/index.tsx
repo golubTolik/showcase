@@ -95,7 +95,7 @@ export default function Index({ categories, popularProducts }: IndexProps) {
                                     <Link href={route('products.show', product.id)}>
                                         <div className="product-title">{product.name}</div>
                                     </Link>
-                                    <div className="product-desc">{product.description}</div>
+                                    {/* <div className="product-desc">{product.description}</div> */}
                                     <div className="price-row">
                                         <div>
                                             <span className="price">{product.price.toLocaleString()} ₽</span>

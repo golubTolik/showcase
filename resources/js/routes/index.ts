@@ -156,6 +156,148 @@ catalog.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
     
     catalog.form = catalogForm
 /**
+ * @see routes/web.php:56
+ * @route '/about'
+ */
+export const about = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+    url: about.url(options),
+    method: 'get',
+})
+
+about.definition = {
+    methods: ["get","head"],
+    url: '/about',
+} satisfies RouteDefinition<["get","head"]>
+
+/**
+ * @see routes/web.php:56
+ * @route '/about'
+ */
+about.url = (options?: RouteQueryOptions) => {
+    return about.definition.url + queryParams(options)
+}
+
+/**
+ * @see routes/web.php:56
+ * @route '/about'
+ */
+about.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+    url: about.url(options),
+    method: 'get',
+})
+/**
+ * @see routes/web.php:56
+ * @route '/about'
+ */
+about.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
+    url: about.url(options),
+    method: 'head',
+})
+
+    /**
+ * @see routes/web.php:56
+ * @route '/about'
+ */
+    const aboutForm = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+        action: about.url(options),
+        method: 'get',
+    })
+
+            /**
+ * @see routes/web.php:56
+ * @route '/about'
+ */
+        aboutForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+            action: about.url(options),
+            method: 'get',
+        })
+            /**
+ * @see routes/web.php:56
+ * @route '/about'
+ */
+        aboutForm.head = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+            action: about.url({
+                        [options?.mergeQuery ? 'mergeQuery' : 'query']: {
+                            _method: 'HEAD',
+                            ...(options?.query ?? options?.mergeQuery ?? {}),
+                        }
+                    }),
+            method: 'get',
+        })
+    
+    about.form = aboutForm
+/**
+ * @see routes/web.php:60
+ * @route '/contacts'
+ */
+export const contacts = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+    url: contacts.url(options),
+    method: 'get',
+})
+
+contacts.definition = {
+    methods: ["get","head"],
+    url: '/contacts',
+} satisfies RouteDefinition<["get","head"]>
+
+/**
+ * @see routes/web.php:60
+ * @route '/contacts'
+ */
+contacts.url = (options?: RouteQueryOptions) => {
+    return contacts.definition.url + queryParams(options)
+}
+
+/**
+ * @see routes/web.php:60
+ * @route '/contacts'
+ */
+contacts.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+    url: contacts.url(options),
+    method: 'get',
+})
+/**
+ * @see routes/web.php:60
+ * @route '/contacts'
+ */
+contacts.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
+    url: contacts.url(options),
+    method: 'head',
+})
+
+    /**
+ * @see routes/web.php:60
+ * @route '/contacts'
+ */
+    const contactsForm = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+        action: contacts.url(options),
+        method: 'get',
+    })
+
+            /**
+ * @see routes/web.php:60
+ * @route '/contacts'
+ */
+        contactsForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+            action: contacts.url(options),
+            method: 'get',
+        })
+            /**
+ * @see routes/web.php:60
+ * @route '/contacts'
+ */
+        contactsForm.head = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+            action: contacts.url({
+                        [options?.mergeQuery ? 'mergeQuery' : 'query']: {
+                            _method: 'HEAD',
+                            ...(options?.query ?? options?.mergeQuery ?? {}),
+                        }
+                    }),
+            method: 'get',
+        })
+    
+    contacts.form = contactsForm
+/**
 * @see \App\Http\Controllers\UserController::login
  * @see app/Http/Controllers/UserController.php:38
  * @route '/login'

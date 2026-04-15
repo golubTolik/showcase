@@ -53,6 +53,16 @@ Route::middleware('auth')->group(function () {
 
 Route::post('/subscribe', [SubscribeController::class, 'store'])->name('subscribe.store');
 
+Route::get('/about', function () {
+    return Inertia::render('about');
+})->name('about');
+
+Route::get('/contacts', function () {
+    return Inertia::render('contacts');
+})->name('contacts');
+
+Route::post('/contact/send', [App\Http\Controllers\ContactController::class, 'send'])->name('contact.send');
+
 Route::post('/login', [UserController::class, 'login'])->name('login');
 Route::post('/registration', [UserController::class, 'registration'])->name('registration');
 Route::post('/logout', [UserController::class, 'logout'])->name('logout');

@@ -509,7 +509,7 @@ export default function Catalog({ categories, products, selectedCategoryId }: Ca
                         Array.from(availableAttributes.entries()).map(([attrId, { attribute, options }]) => (
                             <div key={attrId} className="bg-white rounded-lg border p-4!">
                             <h3 className="font-semibold text-lg mb-3!">{attribute.name}</h3>
-                            <div className="space-y-2 max-h-60 overflow-y-auto">
+                            <div className="space-y-2! max-h-60 overflow-y-auto">
                                 {options.map(opt => (
                                 <label key={opt.id} className="flex items-center gap-2">
                                     <input
@@ -591,9 +591,9 @@ export default function Catalog({ categories, products, selectedCategoryId }: Ca
                                 <div className="product-title text-xl font-semibold mb-2">
                                 {product.name}
                                 </div>
-                                <div className="product-desc text-sm text-[#7c6957] mb-4! leading-relaxed">
+                                {/* <div className="product-desc text-sm text-[#7c6957] mb-4! leading-relaxed">
                                 {product.description}
-                                </div>
+                                </div> */}
                                 <div className="price-row flex justify-between items-baseline mt-2!">
                                 <div>
                                     <span className="price font-bold text-[1.4rem] text-[#b4632e]">

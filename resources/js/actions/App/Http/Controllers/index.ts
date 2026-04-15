@@ -5,6 +5,7 @@ import OrderController from './OrderController'
 import FavoriteController from './FavoriteController'
 import ProfileController from './ProfileController'
 import SubscribeController from './SubscribeController'
+import ContactController from './ContactController'
 import UserController from './UserController'
 import Admin from './Admin'
 const Controllers = {
@@ -15,6 +16,7 @@ OrderController: Object.assign(OrderController, OrderController),
 FavoriteController: Object.assign(FavoriteController, FavoriteController),
 ProfileController: Object.assign(ProfileController, ProfileController),
 SubscribeController: Object.assign(SubscribeController, SubscribeController),
+ContactController: Object.assign(ContactController, ContactController),
 UserController: Object.assign(UserController, UserController),
 Admin: Object.assign(Admin, Admin),
 }

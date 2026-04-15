@@ -12,7 +12,7 @@ export const NavLinks = () => (
     <Link href="/">Главная</Link>
     {/* <CategoryMenu categories={categories}/> */}
     <Link href="/catalog">Каталог</Link>
-    <Link href="">О нас</Link>
-    <Link href="">Контакты</Link>
+    <Link href="/about">О нас</Link>
+    <Link href="/contacts">Контакты</Link>
   </div>
 );
