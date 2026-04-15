@@ -115,7 +115,7 @@ class OrderController extends Controller
 
             DB::commit();
 
-            // Можно отправить уведомление на email и т.п.
+            // отправить уведомление на email
 
             // Возвращаемся на страницу корзины с флеш-сообщением об успехе
             return redirect()->route('cart.index')->with('flash', [
@@ -124,7 +124,7 @@ class OrderController extends Controller
             ]);
         } catch (\Exception $e) {
             DB::rollBack();
-            return back()->with(['error' => 'Ошибка оформления заказа: ' . $e->getMessage()]);
+            return back()->with('error', 'Ошибка оформления заказа: ' . $e->getMessage());
         }
     }
 

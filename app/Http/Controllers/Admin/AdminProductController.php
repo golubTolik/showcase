@@ -103,7 +103,7 @@ class AdminProductController extends Controller
         } catch (\Exception $e) {
             DB::rollBack();
             Log::error('Ошибка создания товара: ' . $e->getMessage(), ['trace' => $e->getTraceAsString()]);
-            return back()->with(['error' => 'Ошибка: ' . $e->getMessage()])->withInput();
+            return back()->with('error', 'Ошибка: ' . $e->getMessage())->withInput();
         }
     }
 
