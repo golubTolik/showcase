@@ -10,15 +10,19 @@ class ContactController extends Controller
 {
     public function send(Request $request)
     {
-        $request->validate([
+        $validated = $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|max:255',
             'message' => 'required|string',
         ]);
 
         // Отправка письма администратору
-        Mail::to(config('mail.from.address'))->send(new ContactFormMail($request->all()));
+        Mail::to(env('MAIL_FROM_ADDRESS'))
+            ->send(new ContactFormMail($validated));
 
-        return back()->with('success', 'Сообщение отправлено. Мы свяжемся с вами в ближайшее время.');
+        return back()->with(
+            'success',
+            'Сообщение отправлено. Мы свяжемся с вами в ближайшее время.'
+        );
     }
 }

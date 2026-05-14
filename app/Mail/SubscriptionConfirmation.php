@@ -55,4 +55,13 @@ class SubscriptionConfirmation extends Mailable
     {
         return [];
     }
+    public function build()
+    {
+        return $this->from(
+                env('MAIL_FROM_ADDRESS'),
+                env('MAIL_FROM_NAME')
+            )
+            ->subject('Добро пожаловать! Ваш подарок внутри')
+            ->view('emails.subscription-confirmation');
+    }
 }

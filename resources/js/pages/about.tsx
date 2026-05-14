@@ -53,7 +53,7 @@ export default function About() {
                                 { img: TruckTrailer, title: 'Быстрая доставка', desc: 'По всей стране' },
                                 { img: ChatTeardropDots, title: 'Поддержка 24/7', desc: 'Профессиональная помощь' },
                             ].map((item, idx) => (
-                                <div key={idx} className="bg-white rounded-xl p-5 shadow-md text-center hover:shadow-lg transition">
+                                <div key={idx} className="bg-white rounded-xl p-5! shadow-md text-center! hover:shadow-lg transition">
                                     <img src={item.img} alt={item.title} className="w-12 h-12 mx-auto mb-3" />
                                     <h3 className="text-lg font-semibold text-gray-800 mb-1!">{item.title}</h3>
                                     <p className="text-gray-500 text-sm">{item.desc}</p>

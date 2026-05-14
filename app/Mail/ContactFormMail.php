@@ -3,59 +3,84 @@
 namespace App\Mail;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
+// use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
-use Illuminate\Mail\Mailables\Attachment;
-use Illuminate\Mail\Mailables\Content;
-use Illuminate\Mail\Mailables\Envelope;
+// use Illuminate\Mail\Mailables\Attachment;
+// use Illuminate\Mail\Mailables\Content;
+// use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
 class ContactFormMail extends Mailable
 {
+    // use Queueable, SerializesModels;
+
+    // public $data;
+
+    // public function __construct($data)
+    // {
+    //     $this->data = $data;
+    // }
+
+    // public function build()
+    // {
+    //     return $this->from($this->data['email'], $this->data['name'])
+    //                 ->subject('Новое сообщение с сайта')
+    //                 ->view('emails.contact');
+    // }
+
+
+    // /**
+    //  * Get the message envelope.
+    //  */
+    // public function envelope(): Envelope
+    // {
+    //     return new Envelope(
+    //         subject: 'Contact Form Mail',
+    //     );
+    // }
+
+    // /**
+    //  * Get the message content definition.
+    //  */
+    // public function content(): Content
+    // {
+    //     return new Content(
+    //         view: 'view.name',
+    //     );
+    // }
+
+    // /**
+    //  * Get the attachments for the message.
+    //  *
+    //  * @return array<int, Attachment>
+    //  */
+    // public function attachments(): array
+    // {
+    //     return [];
+    // }
     use Queueable, SerializesModels;
 
-    public $data;
+    public array $data;
 
-    public function __construct($data)
+    public function __construct(array $data)
     {
         $this->data = $data;
     }
 
     public function build()
     {
-        return $this->from($this->data['email'], $this->data['name'])
-                    ->subject('Новое сообщение с сайта')
-                    ->view('emails.contact');
-    }
-
-
-    /**
-     * Get the message envelope.
-     */
-    public function envelope(): Envelope
-    {
-        return new Envelope(
-            subject: 'Contact Form Mail',
-        );
-    }
-
-    /**
-     * Get the message content definition.
-     */
-    public function content(): Content
-    {
-        return new Content(
-            view: 'view.name',
-        );
-    }
-
-    /**
-     * Get the attachments for the message.
-     *
-     * @return array<int, Attachment>
-     */
-    public function attachments(): array
-    {
-        return [];
+        return $this->subject('Новое сообщение с сайта')
+                    ->from(
+                        env('MAIL_FROM_ADDRESS'),
+                        env('MAIL_FROM_NAME')
+                    )
+                    ->replyTo(
+                        $this->data['email'],
+                        $this->data['name']
+                    )
+                    ->view('emails.contact')
+                    ->with([
+                        'data' => $this->data
+                    ]);
     }
 }
