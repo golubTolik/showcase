@@ -173,9 +173,11 @@ const STORAGE_KEYS = {
     PRICE_MIN: 'catalog_price_min',
     PRICE_MAX: 'catalog_price_max',
     ATTRIBUTE_FILTERS: 'catalog_attribute_filters',
-    };
+    SEARCH_TERM: 'catalog_search_term',
+    SORT_BY: 'catalog_sort_by',
+};
 
-    function saveAttributeFilters(filters: Map<number, Set<number>>) {
+function saveAttributeFilters(filters: Map<number, Set<number>>) {
     const obj: Record<number, number[]> = {};
 
     for (const [attrId, set] of filters.entries()) {
@@ -269,6 +271,13 @@ export default function Catalog({ categories, products, selectedCategoryId }: Ca
         return loadAttributeFilters();
     });
 
+    const [searchTerm, setSearchTerm] = useState<string>(() => {
+        return localStorage.getItem(STORAGE_KEYS.SEARCH_TERM) || '';
+    });
+    const [sortBy, setSortBy] = useState<string>(() => {
+        return localStorage.getItem(STORAGE_KEYS.SORT_BY) || 'default';
+    });
+
     const isFirstRender = useRef(true);
 
     // Сохранение в localStorage
@@ -313,6 +322,22 @@ export default function Catalog({ categories, products, selectedCategoryId }: Ca
         saveAttributeFilters(selectedAttributeFilters);
     }, [selectedAttributeFilters]);
 
+    useEffect(() => {
+        if (isFirstRender.current) {
+            return
+        }
+
+        localStorage.setItem(STORAGE_KEYS.SEARCH_TERM, searchTerm);
+    }, [searchTerm]);
+
+    useEffect(() => {
+        if (isFirstRender.current) {
+            return
+        }
+
+        localStorage.setItem(STORAGE_KEYS.SORT_BY, sortBy);
+    }, [sortBy]);
+
     // const [selectedRootCategory, setSelectedRootCategory] = useState<Category | null>(null);
     // const [selectedSubcategoryId, setSelectedSubcategoryId] = useState<number | null>(null);
     // const [priceMin, setPriceMin] = useState<number>(0);
@@ -347,7 +372,7 @@ export default function Catalog({ categories, products, selectedCategoryId }: Ca
         return products.filter(p => allowedCategoryIds.includes(p.category_id));
     }, [allowedCategoryIds, products]);
     console.log('categoryProducts:', categoryProducts);
-        console.log('first product attrs:', categoryProducts[0] ? getAttributeValues(categoryProducts[0]) : []);
+    console.log('first product attrs:', categoryProducts[0] ? getAttributeValues(categoryProducts[0]) : []);
 
     const availableAttributes = useMemo(() => {
         return getAvailableAttributeOptions(categoryProducts);
@@ -369,13 +394,50 @@ export default function Catalog({ categories, products, selectedCategoryId }: Ca
         setSelectedAttributeFilters(new Map());
     }, [priceBounds.min, priceBounds.max, selectedRootCategory, selectedSubcategoryId]);
 
-    const filteredProducts = useMemo(() => {
-        if (allowedCategoryIds.length === 0) {
-            return [];
+    // const filteredProducts = useMemo(() => {
+    //     if (allowedCategoryIds.length === 0) {
+    //         return [];
+    //     }
+
+    //     return filterProducts(products, allowedCategoryIds, priceMin, priceMax, selectedAttributeFilters);
+    // }, [products, allowedCategoryIds, priceMin, priceMax, selectedAttributeFilters]);
+    const filteredAndSearchedProducts = useMemo(() => {
+        // Сначала применяем фильтры (цена, категории, атрибуты)
+        let result = filterProducts(products, allowedCategoryIds, priceMin, priceMax, selectedAttributeFilters);
+
+        // Поиск по названию и описанию
+        if (searchTerm.trim() !== '') {
+            const term = searchTerm.toLowerCase();
+            result = result.filter(p =>
+                p.name.toLowerCase().includes(term) ||
+                (p.description && p.description.toLowerCase().includes(term))
+            );
         }
 
-        return filterProducts(products, allowedCategoryIds, priceMin, priceMax, selectedAttributeFilters);
-    }, [products, allowedCategoryIds, priceMin, priceMax, selectedAttributeFilters]);
+        // Сортировка
+        switch (sortBy) {
+            case 'price_asc':
+                result.sort((a, b) => a.price - b.price);
+                break;
+            case 'price_desc':
+                result.sort((a, b) => b.price - a.price);
+                break;
+            case 'name_asc':
+                result.sort((a, b) => a.name.localeCompare(b.name));
+                break;
+            case 'name_desc':
+                result.sort((a, b) => b.name.localeCompare(a.name));
+                break;
+            case 'newest':
+                result.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
+                break;
+            default:
+                // 'default' – оставляем как есть (обычно порядок с сервера)
+                break;
+        }
+
+        return result;
+    }, [products, allowedCategoryIds, priceMin, priceMax, selectedAttributeFilters, searchTerm, sortBy]);
 
     const handleRootCategoryClick = (cat: Category) => {
         setSelectedRootCategory(cat);
@@ -441,7 +503,7 @@ export default function Catalog({ categories, products, selectedCategoryId }: Ca
             {/* Грид родительских категорий */}
             <div className="mb-10!">
             <h2 className="text-2xl  mb-4! mt-4! font-[Gabriela]">Категории</h2>
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4!">
                 {roots.map(cat => (
                 <div
                     key={cat.id}
@@ -461,7 +523,7 @@ export default function Catalog({ categories, products, selectedCategoryId }: Ca
             {selectedRootCategory ? (
             <div className="flex flex-col md:flex-row gap-8">
                 {/* Левая панель фильтров */}
-                <aside className="w-full md:w-72 shrink-0 space-y-6">
+                <aside className="w-full md:w-72 shrink-0 space-y-6!">
                 <div className="bg-white rounded-lg border p-4! mb-4!">
                     <h3 className="font-semibold text-lg mb-3!">Цена</h3>
                     <div className="space-y-2">
@@ -560,11 +622,51 @@ export default function Catalog({ categories, products, selectedCategoryId }: Ca
                     </div>
                 </div>
 
-                {filteredProducts.length === 0 ? (
+                {/* ✨ Блок поиска и сортировки */}
+                <div className="flex flex-col mb-6! sm:flex-row justify-between items-center gap-4!">
+                    {/* Поиск */}
+                    <div className="relative w-full sm:w-80">
+                        <div className="absolute inset-y-0 left-0 flex items-center pl-3! pointer-events-none">
+                            <svg className="w-5 h-5 text-[#aa8e76]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                            </svg>
+                        </div>
+                        <input
+                            type="text"
+                            placeholder="Поиск товаров..."
+                            value={searchTerm}
+                            onChange={(e) => setSearchTerm(e.target.value)}
+                            className="w-full bg-white border border-[#e2cfbe] rounded-xl pl-10! pr-4! py-2.5! text-gray-700 placeholder:text-[#aa8e76] focus:outline-none focus:ring-2 focus:ring-[#b4632e] focus:border-transparent transition-all"
+                        />
+                    </div>
+
+                    {/* Сортировка */}
+                    <div className="relative w-full sm:w-auto">
+                        <select
+                            value={sortBy}
+                            onChange={(e) => setSortBy(e.target.value)}
+                            className="w-full sm:w-64 bg-white border border-[#e2cfbe] rounded-xl px-4! py-2.5! text-gray-700 appearance-none cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#b4632e] focus:border-transparent transition-all"
+                        >
+                            <option value="default">По умолчанию</option>
+                            <option value="price_asc">Цена: по возрастанию</option>
+                            <option value="price_desc">Цена: по убыванию</option>
+                            <option value="name_asc">Название: А–Я</option>
+                            <option value="name_desc">Название: Я–А</option>
+                            <option value="newest">Сначала новинки</option>
+                        </select>
+                        <div className="absolute inset-y-0 right-0 flex items-center pr-3! pointer-events-none">
+                            <svg className="w-5 h-5 text-[#aa8e76]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+                {/* filteredProducts */}
+                {filteredAndSearchedProducts.length === 0 ? (
                     <div className="text-center py-12! text-gray-500">Товары не найдены</div>
                 ) : (
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {filteredProducts.map(product => {
+                    {filteredAndSearchedProducts.map(product => {
 
                         return (
                         <div
@@ -619,7 +721,7 @@ export default function Catalog({ categories, products, selectedCategoryId }: Ca
                 </div>
             </div>
             ) : (
-            <div className="text-center py-20 text-gray-400">Выберите категорию, чтобы увидеть товары</div>
+            <div className="text-center! py-20! text-gray-400">Выберите категорию, чтобы увидеть товары</div>
             )}
         </main>
         <Footer />
