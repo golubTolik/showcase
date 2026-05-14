@@ -1,11 +1,13 @@
-import { useForm } from '@inertiajs/react';
+import { useForm, usePage } from '@inertiajs/react';
 import { MapPin, Phone, Mail, Clock, Send } from 'lucide-react';
 import { route } from 'ziggy-js';
-// import Alert from '@/components/layout/alert';
+import Alert from '@/components/layout/alert';
 import Footer from '@/components/layout/footer';
 import Navbar from '@/components/layout/Navbar';
 
 export default function Contacts() {
+    const { flash } = usePage().props as { flash?: { success?: string; error?: string; info?: string }};
+
     const { data, setData, post, processing, errors, reset } = useForm({
         name: '',
         email: '',
@@ -23,6 +25,7 @@ export default function Contacts() {
     return (
         <>
             <Navbar />
+            <Alert flash={flash} autoCloseDelay={5000} />
             <main className="bg-linear-to-b from-white to-amber-50/30 py-12!">
                 <div className="container mx-auto! px-4! max-w-6xl">
                     {/* Заголовок */}
