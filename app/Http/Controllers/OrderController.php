@@ -9,6 +9,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\OrderCreatedCustomerMail;
+use App\Mail\OrderCreatedAdminMail;
 
 class OrderController extends Controller
 {
@@ -115,7 +118,13 @@ class OrderController extends Controller
 
             DB::commit();
 
-            // отправить уведомление на email
+            // Письмо клиенту
+            Mail::to($order->email)
+                ->send(new OrderCreatedCustomerMail($order));
+
+            // Письмо админу
+            Mail::to(env('MAIL_FROM_ADDRESS'))
+                ->send(new OrderCreatedAdminMail($order));
 
             // Возвращаемся на страницу корзины с флеш-сообщением об успехе
             return redirect()->route('cart.index')->with('flash', [

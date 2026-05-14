@@ -57,7 +57,7 @@ export default function OrdersIndex({ orders }: Props) {
                     <div className="space-y-4!">
                         {orders.map((order) => (
                             <div key={order.id} className="border rounded-lg p-4! bg-white shadow-sm hover:shadow-md transition">
-                                <div className="flex flex-wrap justify-between items-start gap-4">
+                                <div className="flex flex-wrap justify-between items-start gap-4!">
                                     <div>
                                         <div className="text-1xl font-medium text-gray-1000">Заказ №{order.id}</div>
                                         <div className="text-sm text-gray-500">{order.created_at}</div>

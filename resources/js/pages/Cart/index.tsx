@@ -99,7 +99,7 @@ export default function CartIndex({ cartItems, totalPrice }: Props) {
                     </div>
                 ) : (
                     <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                        <div className="lg:col-span-2 space-y-4">
+                        <div className="lg:col-span-2 space-y-4!">
                             {cartItems.map((item) => (
                                 <div key={item.id} className="flex gap-4 border rounded-lg p-4! bg-white shadow-sm">
                                     <div className="w-24 h-24 shrink-0 bg-gray-100 rounded-md overflow-hidden">
