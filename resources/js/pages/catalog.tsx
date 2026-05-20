@@ -58,11 +58,11 @@ function getAttributeValues(product: ProductWithDetails) {
 
   return product.product_attribute_values
     .map(pav => {
-      const attrValues = pav.attribute_value;
+        const attrValues = pav.attribute_value;
 
-      if (!attrValues || !attrValues.attribute) {
-        return null;
-    }
+        if (!attrValues || !attrValues.attribute) {
+            return null;
+        }
 
       return {
         id: pav.id,
@@ -625,27 +625,34 @@ export default function Catalog({ categories, products, selectedCategoryId }: Ca
                 {/* ✨ Блок поиска и сортировки */}
                 <div className="flex flex-col mb-6! sm:flex-row justify-between items-center gap-4!">
                     {/* Поиск */}
-                    <div className="relative w-full sm:w-80">
-                        <div className="absolute inset-y-0 left-0 flex items-center pl-3! pointer-events-none">
-                            <svg className="w-5 h-5 text-[#aa8e76]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                            </svg>
-                        </div>
+                    <div className="flex items-center w-full sm:w-80 bg-white border border-[#e2cfbe] rounded-xl px-3! py-2.5! focus-within:ring-2 focus-within:ring-[#b4632e] transition-all">
+                        <svg
+                            className="w-5 h-5 text-[#aa8e76] shrink-0"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                        >
+                            <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth={2}
+                                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                            />
+                        </svg>
                         <input
                             type="text"
                             placeholder="Поиск товаров..."
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
-                            className="w-full bg-white border border-[#e2cfbe] rounded-xl pl-10! pr-4! py-2.5! text-gray-700 placeholder:text-[#aa8e76] focus:outline-none focus:ring-2 focus:ring-[#b4632e] focus:border-transparent transition-all"
+                            className="w-full ml-2! bg-transparent text-gray-700 placeholder:text-[#aa8e76] focus:outline-none"
                         />
                     </div>
-
                     {/* Сортировка */}
-                    <div className="relative w-full sm:w-auto">
+                    <div className="flex items-center w-full sm:w-64 bg-white border border-[#e2cfbe] rounded-xl px-4! py-2.5! focus-within:ring-2 focus-within:ring-[#b4632e] transition-all">
                         <select
                             value={sortBy}
                             onChange={(e) => setSortBy(e.target.value)}
-                            className="w-full sm:w-64 bg-white border border-[#e2cfbe] rounded-xl px-4! py-2.5! text-gray-700 appearance-none cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#b4632e] focus:border-transparent transition-all"
+                            className="w-full bg-transparent text-gray-700 appearance-none cursor-pointer focus:outline-none"
                         >
                             <option value="default">По умолчанию</option>
                             <option value="price_asc">Цена: по возрастанию</option>
@@ -654,11 +661,19 @@ export default function Catalog({ categories, products, selectedCategoryId }: Ca
                             <option value="name_desc">Название: Я–А</option>
                             <option value="newest">Сначала новинки</option>
                         </select>
-                        <div className="absolute inset-y-0 right-0 flex items-center pr-3! pointer-events-none">
-                            <svg className="w-5 h-5 text-[#aa8e76]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                            </svg>
-                        </div>
+                        <svg
+                            className="w-5 h-5 text-[#aa8e76] shrink-0 ml-2!"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                        >
+                            <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth={2}
+                                d="M19 9l-7 7-7-7"
+                            />
+                        </svg>
                     </div>
                 </div>
                 {/* filteredProducts */}

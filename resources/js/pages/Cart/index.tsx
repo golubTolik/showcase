@@ -25,10 +25,10 @@ interface Props {
 }
 
 interface FlashProps {
-  showModal?: boolean;
-  success?: string;
-  error?: string;
-  info?: string;
+    showModal?: boolean;
+    success?: string;
+    error?: string;
+    info?: string;
 }
 
 export default function CartIndex({ cartItems, totalPrice }: Props) {
@@ -39,7 +39,7 @@ export default function CartIndex({ cartItems, totalPrice }: Props) {
 
     useEffect(() => {
         if (flash.showModal !== undefined) {
-          setModalActive(flash.showModal);
+            setModalActive(flash.showModal);
         }
     }, [flash.showModal, setModalActive]);
 

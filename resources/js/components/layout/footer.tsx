@@ -36,7 +36,7 @@ export default function Footer() {
                     <h4>Контакты</h4>
                     <ul>
                     <li>+7(999)123-45-67</li>
-                    <li>rychki@mail.ru</li>
+                    <li>rucotvore@gmail.com</li>
                     <li>Адрес....</li>
                     </ul>
                 </div>

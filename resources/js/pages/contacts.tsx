@@ -65,8 +65,8 @@ export default function Contacts() {
                                     <Mail className="w-5 h-5 text-[#b4632e]" />
                                     Email
                                 </h2>
-                                <a href="mailto:info@example.com" className="text-gray-600 hover:text-[#b4632e] transition">
-                                    info@example.com
+                                <a href="mailto:rucotvore@gmail.com" className="text-gray-600 hover:text-[#b4632e] transition">
+                                    rucotvore@gmail.com
                                 </a>
                             </div>
 
