@@ -56,7 +56,7 @@ export default function FavoritesIndex({ favorites }: Props) {
 
             <Alert flash={flash} autoCloseDelay={5000} />
 
-            <main className="container mx-auto! px-4! py-8! max-w-6xl min-h-[100vh]">
+            <main className="container mx-auto! px-4! py-8! max-w-6xl min-h-screen!">
                 <h1 className="text-2xl mb-6! font-[Gabriela]">Избранное</h1>
 
                 {items.length === 0 ? (
@@ -71,29 +71,31 @@ export default function FavoritesIndex({ favorites }: Props) {
                         {items.map((item) => (
                             <div
                                 key={item.id}
-                                className="product-card bg-white rounded-3xl overflow-hidden transition-all duration-200 shadow-[0_8px_18px_rgba(0,0,0,0.03)] border border-[#f1e3d7] hover:-translate-y-1 hover:shadow-[0_20px_30px_-12px_rgba(82,45,18,0.12)] hover:border-[#e2cfbe] relative"
+                                className="product-card bg-white rounded-3xl overflow-hidden transition-all duration-200 shadow-[0_8px_18px_rgba(0,0,0,0.03)] border border-[#f1e3d7] hover:-translate-y-1 hover:shadow-[0_20px_30px_-12px_rgba(82,45,18,0.12)] hover:border-[#e2cfbe]"
                             >
                                 {/* Кнопка удаления из избранного (крестик) */}
-                                <button
-                                    onClick={() => removeFromFavorites(item.id)}
-                                    disabled={removingId === item.id}
-                                    className="cursor-pointer absolute top-3 right-3 z-10 w-8 h-8 rounded-full bg-white/80 backdrop-blur-sm border border-[#b4632e] text-[#b4632e] flex items-center justify-center hover:bg-red-300 transition disabled:opacity-50"
-                                    aria-label="Удалить из избранного"
-                                >
-                                    <svg
-                                        className="w-5 h-5"
-                                        fill={'currentColor'}
-                                        stroke="currentColor"
-                                        viewBox="0 0 24 24"
-                                        >
-                                        <path
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
-                                            strokeWidth={2}
-                                            d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
-                                        />
-                                    </svg>
-                                </button>
+                                {/* <div className="relative">
+                                    <button
+                                        onClick={() => removeFromFavorites(item.id)}
+                                        disabled={removingId === item.id}
+                                        className="cursor-pointer absolute top-3 right-3  w-8 h-8 rounded-full bg-white/80 backdrop-blur-sm border border-[#b4632e] text-[#b4632e] flex items-center justify-center hover:bg-red-300 transition disabled:opacity-50"
+                                        aria-label="Удалить из избранного"
+                                    >
+                                        <svg
+                                            className="w-5 h-5"
+                                            fill={'currentColor'}
+                                            stroke="currentColor"
+                                            viewBox="0 0 24 24"
+                                            >
+                                            <path
+                                                strokeLinecap="round"
+                                                strokeLinejoin="round"
+                                                strokeWidth={2}
+                                                d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
+                                            />
+                                        </svg>
+                                    </button>
+                                </div>
 
                                 <div className="product-img-wrapper w-full aspect-square bg-[#faf0e6] flex items-center justify-center overflow-hidden">
                                     <Link href={route('products.show', { product: item.product_id })}>
@@ -109,20 +111,62 @@ export default function FavoritesIndex({ favorites }: Props) {
                                             </div>
                                         )}
                                     </Link>
+                                </div> */}
+                                <div className="grid">
+                                    <div className="col-start-1 row-start-1">
+                                        <div className="product-img-wrapper w-full aspect-square bg-[#faf0e6] flex items-center justify-center overflow-hidden">
+                                            <Link href={route('products.show', { product: item.product_id })}>
+                                                {item.image ? (
+                                                    <img
+                                                        src={asset(item.image)}
+                                                        alt={item.name}
+                                                        className="product-img w-full h-full object-cover block"
+                                                    />
+                                                ) : (
+                                                    <div className="product-img-placeholder text-[#aa8e76] text-sm text-center p-4! bg-[#faf0e6] w-full h-full flex items-center justify-center">
+                                                        🖼️ {item.name}
+                                                    </div>
+                                                )}
+                                            </Link>
+                                        </div>
+                                    </div>
+
+                                    <div className="col-start-1 row-start-1 justify-self-end self-start p-3 z-10">
+                                        <button
+                                            onClick={() => removeFromFavorites(item.id)}
+                                            disabled={removingId === item.id}
+                                            className="cursor-pointer w-8 h-8 rounded-full bg-white/80 backdrop-blur-sm border border-[#b4632e] text-[#b4632e] flex items-center justify-center hover:bg-red-300 transition disabled:opacity-50"
+                                            aria-label="Удалить из избранного"
+                                        >
+                                            <svg
+                                                className="w-5 h-5"
+                                                fill="currentColor"
+                                                stroke="currentColor"
+                                                viewBox="0 0 24 24"
+                                            >
+                                                <path
+                                                    strokeLinecap="round"
+                                                    strokeLinejoin="round"
+                                                    strokeWidth={2}
+                                                    d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
+                                                />
+                                            </svg>
+                                        </button>
+                                    </div>
                                 </div>
 
-                                <div className="product-info !px-5 pt-[18px] pb-[22px]">
+                                <div className="product-info px-5! pt-4.5! pb-5.5!">
                                     <Link href={route('products.show', { product: item.product_id })}>
                                         <div className="product-title text-xl font-semibold mb-2">
                                             {item.name}
                                         </div>
                                     </Link>
 
-                                        <div className="product-desc text-sm text-[#7c6957] !mb-4 leading-relaxed">
+                                        <div className="product-desc text-sm text-[#7c6957] mb-4! leading-relaxed">
                                             {item.description}
                                         </div>
 
-                                    <div className="price-row flex justify-between items-baseline !mt-2">
+                                    <div className="price-row flex justify-between items-baseline mt-2!">
                                         <div>
                                             <span className="price font-bold text-[1.4rem] text-[#b4632e]">
                                                 {item.price.toLocaleString()} ₽

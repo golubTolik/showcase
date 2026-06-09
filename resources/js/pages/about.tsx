@@ -16,7 +16,7 @@ export default function About() {
                         <h1 className="text-4xl md:text-5xl font-bold text-gray-800 mb-3! font-[Gabriela]">
                             О нас
                         </h1>
-                        <div className="w-24 h-1 bg-[#b4632e] mx-auto rounded-full"></div>
+                        <div className="w-24 h-1 bg-[#b4632e] mx-auto! rounded-full"></div>
                     </div>
 
                     {/* Описание компании */}
@@ -35,7 +35,7 @@ export default function About() {
                             </p>
                         </div>
                         <div className="bg-[#b4632e]/10 rounded-2xl p-6! text-center">
-                            <img src={HouseLine} alt="Дом" className="w-16 h-16 mx-auto mb-3" />
+                            <img src={HouseLine} alt="Дом" className="w-16 h-16 mx-auto! mb-3!" />
                             <h3 className="text-xl font-semibold text-gray-800">Более 5000 довольных клиентов</h3>
                             <p className="text-gray-600 mt-2!">по всей России</p>
                         </div>
@@ -46,7 +46,7 @@ export default function About() {
                         <h2 className="text-2xl font-semibold text-center text-gray-800 mb-3!">
                             Наши преимущества
                         </h2>
-                        <div className="w-24 h-1 bg-[#b4632e] mx-auto rounded-full mb-8!"></div>
+                        <div className="w-24 h-1 bg-[#b4632e] mx-auto! rounded-full mb-8!"></div>
                         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
                             {[
                                 { img: ShieldCheck, title: 'Сертифицированные товары', desc: 'Только проверенное качество' },
@@ -54,7 +54,7 @@ export default function About() {
                                 { img: ChatTeardropDots, title: 'Поддержка 24/7', desc: 'Профессиональная помощь' },
                             ].map((item, idx) => (
                                 <div key={idx} className="bg-white rounded-xl p-5! shadow-md text-center! hover:shadow-lg transition">
-                                    <img src={item.img} alt={item.title} className="w-12 h-12 mx-auto mb-3" />
+                                    <img src={item.img} alt={item.title} className="w-12 h-12 mx-auto! mb-3!" />
                                     <h3 className="text-lg font-semibold text-gray-800 mb-1!">{item.title}</h3>
                                     <p className="text-gray-500 text-sm">{item.desc}</p>
                                 </div>

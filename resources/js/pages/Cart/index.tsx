@@ -153,7 +153,8 @@ export default function CartIndex({ cartItems, totalPrice }: Props) {
                         </div>
 
                         <div className="lg:col-span-1">
-                            <div className="bg-white border shadow-sm rounded-lg p-6! sticky top-24">
+                            {/* <div className="bg-white border shadow-sm rounded-lg p-6! sticky top-24"> */}
+                            <div className="bg-white border shadow-sm rounded-lg p-6! top-24">
                                 <h2 className="text-xl font-semibold mb-4!">Итого</h2>
                                 <div className="flex justify-between text-lg mb-2!">
                                     <span>Товары ({totalQuantity} шт.)</span>

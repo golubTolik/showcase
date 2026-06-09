@@ -35,7 +35,7 @@ export default function CheckoutForm({ totalPrice, onSuccess }: CheckoutFormProp
         <p className="text-gray-600 mb-4!">Сумма заказа: <span className="font-bold">{totalPrice.toLocaleString()} ₽</span></p>
 
         <div>
-            <label className="block text-sm font-medium mb-1!">ФИО *</label>
+            <label className="block text-sm font-medium mb-1!">ФИО</label>
             <input
             type="text"
             value={data.full_name}
@@ -47,7 +47,7 @@ export default function CheckoutForm({ totalPrice, onSuccess }: CheckoutFormProp
         </div>
 
         <div>
-            <label className="block text-sm font-medium mb-1!">Телефон *</label>
+            <label className="block text-sm font-medium mb-1!">Телефон</label>
             <input
             type="tel"
             value={data.phone}
@@ -59,7 +59,7 @@ export default function CheckoutForm({ totalPrice, onSuccess }: CheckoutFormProp
         </div>
 
         <div>
-            <label className="block text-sm font-medium mb-1!">Email *</label>
+            <label className="block text-sm font-medium mb-1!">Email</label>
             <input
             type="email"
             value={data.email}
