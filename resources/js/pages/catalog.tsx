@@ -493,6 +493,8 @@ export default function Catalog({ categories, products, selectedCategoryId }: Ca
         });
     };
 
+    const [filtersOpen, setFiltersOpen] = useState(false);
+
     return (
         <>
         <Navbar />
@@ -522,8 +524,159 @@ export default function Catalog({ categories, products, selectedCategoryId }: Ca
 
             {selectedRootCategory ? (
             <div className="flex flex-col md:flex-row gap-8">
+                {/* Кнопка фильтров только на мобильных */}
+                <div className="md:hidden">
+                    <button
+                        onClick={() => setFiltersOpen(true)}
+                        className="
+                            w-full
+                            flex
+                            items-center
+                            justify-center
+                            gap-2
+                            border
+                            rounded-lg
+                            py-3!
+                            px-4!
+                            bg-white
+                        "
+                    >
+                        <svg
+                            className="w-5 h-5"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                        >
+                            <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth={2}
+                                d="M3 4h18M6 12h12M10 20h4"
+                            />
+                        </svg>
+
+                        Фильтры
+                    </button>
+                </div>
+                {/* Затемнение */}
+                {filtersOpen && (
+                    <div
+                        className="fixed inset-0 bg-black/40 z-40 md:hidden"
+                        onClick={() => setFiltersOpen(false)}
+                    />
+                )}
+
+                <aside
+                    className={`
+                        fixed md:static
+                        top-0 left-0
+                        h-full md:h-auto
+                        w-[85%] md:w-72
+                        bg-[#fefaf5]
+                        z-50 md:z-auto
+
+                        overflow-y-auto
+                        transition-transform duration-300
+
+                        ${
+                            filtersOpen
+                                ? "translate-x-0"
+                                : "-translate-x-full md:translate-x-0"
+                        }
+
+                        shrink-0
+                        space-y-6!
+                    `}
+                >
+
+                    {/* Шапка мобильных фильтров */}
+                    <div className="md:hidden sticky top-0 bg-white border-b p-4! flex justify-between items-center">
+                        <h2 className="font-semibold">
+                            Фильтры
+                        </h2>
+
+                        <button
+                            onClick={() => setFiltersOpen(false)}
+                            className="text-xl"
+                        >
+                            ✕
+                        </button>
+                    </div>
+
+                    {/* ===== ДАЛЬШЕ КОД ФИЛЬТРОВ ===== */}
+
+                    <div className="space-y-3!">
+                        <div className="bg-white rounded-lg border p-4! mb-4!">
+                            <h3 className="font-semibold text-lg mb-3!">Цена</h3>
+                            <div className="space-y-2!">
+                            <div className="flex justify-between text-sm">
+                                <span>от {priceMin} ₽</span>
+                                <span>до {priceMax} ₽</span>
+                            </div>
+                            <input
+                                type="range"
+                                min={priceBounds.min}
+                                max={priceBounds.max}
+                                value={priceMin}
+                                onChange={(e) => setPriceMin(Number(e.target.value))}
+                                className="w-full"
+                            />
+                            <input
+                                type="range"
+                                min={priceBounds.min}
+                                max={priceBounds.max}
+                                value={priceMax}
+                                onChange={(e) => setPriceMax(Number(e.target.value))}
+                                className="w-full"
+                            />
+                            <div className="flex gap-2">
+                                <input
+                                type="number"
+                                value={priceMin}
+                                onChange={(e) => setPriceMin(Number(e.target.value))}
+                                className="w-24 border rounded px-2! py-1! text-sm"
+                                />
+                                <input
+                                type="number"
+                                value={priceMax}
+                                onChange={(e) => setPriceMax(Number(e.target.value))}
+                                className="w-24 border rounded px-2! py-1! text-sm"
+                                />
+                            </div>
+                            </div>
+                        </div>
+                        {availableAttributes.size === 0 ? (
+                            <div className="bg-white rounded-lg border p-4!">
+                                <p className="text-gray-500">Нет доступных фильтров</p>
+                            </div>
+                            ) : (
+                            Array.from(availableAttributes.entries()).map(([attrId, { attribute, options }]) => (
+                                <div key={attrId} className="bg-white rounded-lg border p-4!">
+                                <h3 className="font-semibold text-lg mb-3!">{attribute.name}</h3>
+                                <div className="space-y-2! max-h-60 overflow-y-auto">
+                                    {options.map(opt => (
+                                    <label key={opt.id} className="flex items-center gap-2">
+                                        <input
+                                        type="checkbox"
+                                        checked={isOptionSelected(attrId, opt.id)}
+                                        onChange={() => toggleAttributeOption(attrId, opt.id)}
+                                        className="rounded"
+                                        />
+                                        <span className="text-sm">{opt.value}</span>
+                                    </label>
+                                    ))}
+                                    {options.length === 0 && (
+                                    <div className="text-sm text-gray-400">Нет значений</div>
+                                    )}
+                                </div>
+                                </div>
+                            ))
+                        )}
+                    </div>
+                </aside>
+
                 {/* Левая панель фильтров */}
-                <aside className="w-full md:w-72 shrink-0 space-y-6!">
+                {/* <aside className="w-full md:w-72 shrink-0 space-y-6!">
                 <div className="bg-white rounded-lg border p-4! mb-4!">
                     <h3 className="font-semibold text-lg mb-3!">Цена</h3>
                     <div className="space-y-2">
@@ -590,7 +743,7 @@ export default function Catalog({ categories, products, selectedCategoryId }: Ca
                             </div>
                         ))
                     )}
-                </aside>
+                </aside> */}
 
                 {/* Правая часть: подкатегории + товары */}
                 <div className="flex-1">

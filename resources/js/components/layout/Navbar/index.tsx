@@ -71,11 +71,22 @@ export default function Navbar() {
 
                     <NavLinks />
 
-                    <UserActions
+                    {/* <UserActions
                         isLoggedIn={isLoggedIn}
                         user={auth.user}
                         onLoginClick={() => {
                             setModalActive(true);
+                            setMenuOpen(false);
+                        }}
+                    /> */}
+                    <UserActions
+                        mobile
+                        isLoggedIn={isLoggedIn}
+                        user={auth.user}
+                        onLoginClick={() => {
+                            setModalActive(true);
+                        }}
+                        onItemClick={() => {
                             setMenuOpen(false);
                         }}
                     />

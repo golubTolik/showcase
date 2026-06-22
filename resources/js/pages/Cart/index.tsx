@@ -87,8 +87,8 @@ export default function CartIndex({ cartItems, totalPrice }: Props) {
 
             <Alert flash={flash} autoCloseDelay={5000} />
 
-            <main className="container min-h-screen mx-auto! px-4! py-8! max-w-5xl">
-                <h1 className="text-2xl  mb-6! font-[Gabriela]">Корзина</h1>
+            <main className="container min-h-screen mx-auto! px-4! py-6! md:py-8! max-w-5xl">
+                <h1 className="text-xl md:text-2xl  mb-6! font-[Gabriela]">Корзина</h1>
 
                 {cartItems.length === 0 ? (
                     <div className="text-center py-12!">
@@ -98,11 +98,11 @@ export default function CartIndex({ cartItems, totalPrice }: Props) {
                         </Link>
                     </div>
                 ) : (
-                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
                         <div className="lg:col-span-2 space-y-4!">
                             {cartItems.map((item) => (
-                                <div key={item.id} className="flex gap-4 border rounded-lg p-4! bg-white shadow-sm">
-                                    <div className="w-24 h-24 shrink-0 bg-gray-100 rounded-md overflow-hidden">
+                                <div key={item.id} className="flex flex-col sm:flex-row gap-4 border rounded-lg p-4! bg-white shadow-sm">
+                                    <div className="w-full sm:w-24 h-52 sm:h-24 shrink-0 bg-gray-100 rounded-md overflow-hidden">
                                         {item.image ? (
                                             <img src={asset(item.image)} alt={item.name} className="w-full h-full object-cover" />
                                         ) : (
@@ -115,12 +115,12 @@ export default function CartIndex({ cartItems, totalPrice }: Props) {
                                         </Link>
                                         <div className="text-sm text-gray-500 mt-1!">{item.price.toLocaleString()} ₽</div>
                                     </div>
-                                    <div className="flex flex-col items-end gap-2">
+                                    <div className="flex flex-row sm:flex-col justify-between sm:items-end gap-4">
                                         <div className="flex items-center gap-2">
                                             <button
                                                 onClick={() => updateQuantity(item.id, item.quantity - 1)}
                                                 disabled={updatingId === item.id}
-                                                className="w-8 h-8 rounded border hover:bg-gray-100 disabled:opacity-50"
+                                                className="w-9 h-9 rounded border hover:bg-gray-100 disabled:opacity-50"
                                             >
                                                 -
                                             </button>
@@ -128,31 +128,34 @@ export default function CartIndex({ cartItems, totalPrice }: Props) {
                                             <button
                                                 onClick={() => updateQuantity(item.id, item.quantity + 1)}
                                                 disabled={updatingId === item.id}
-                                                className="w-8 h-8 rounded border hover:bg-gray-100 disabled:opacity-50"
+                                                className="w-9 h-9 rounded border hover:bg-gray-100 disabled:opacity-50"
                                             >
                                                 +
                                             </button>
                                         </div>
-                                        <div className="font-bold">{(item.price * item.quantity).toLocaleString()} ₽</div>
-                                        {/* <button
-                                            onClick={() => removeItem(item.id)}
-                                            className="text-sm text-red-500 hover:underline"
-                                        >
-                                            Удалить из корзины
-                                        </button> */}
-                                        <Badge
-                                            onClick={() => removeItem(item.id)}
-                                            variant="destructive"
-                                            className="cursor-pointer hover:bg-red-500 hover:text-white"
-                                        >
-                                            Удалить из корзины
-                                        </Badge>
+
+                                        <div className="flex flex-col items-end gap-2">
+                                            <div className="whitespace-nowrap font-bold">{(item.price * item.quantity).toLocaleString()} ₽</div>
+                                            {/* <button
+                                                onClick={() => removeItem(item.id)}
+                                                className="text-sm text-red-500 hover:underline"
+                                            >
+                                                Удалить из корзины
+                                            </button> */}
+                                            <Badge
+                                                onClick={() => removeItem(item.id)}
+                                                variant="destructive"
+                                                className="text-xs cursor-pointer hover:bg-red-500 hover:text-white"
+                                            >
+                                                Удалить
+                                            </Badge>
+                                        </div>
                                     </div>
                                 </div>
                             ))}
                         </div>
 
-                        <div className="lg:col-span-1">
+                        <div className="lg:col-span-1 ">
                             {/* <div className="bg-white border shadow-sm rounded-lg p-6! sticky top-24"> */}
                             <div className="bg-white border shadow-sm rounded-lg p-6! top-24">
                                 <h2 className="text-xl font-semibold mb-4!">Итого</h2>

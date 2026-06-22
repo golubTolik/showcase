@@ -137,6 +137,27 @@
             color: #f0e4d4;
         }
 
+        .mobile-link {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+
+            width: 100%;
+
+            padding: 14px 0;
+
+            border-bottom: 1px solid #eee;
+
+            background: transparent;
+
+            font-family: Gabriela;
+        }
+
+        .mobile-link img {
+            width: 18px;
+            height: 18px;
+        }
+
 /* =========================
     DESKTOP NAV
 ========================= */
