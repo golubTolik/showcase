@@ -70,7 +70,7 @@ export default function Index({ categories, popularProducts }: IndexProps) {
                                 className="category-card"
                             >
                                 <div className="category-item">
-                                    <div className="category-emoji">
+                                    <div className="category-emoji h-25 flex justify-center items-center">
                                         {category.img ? <img src={asset(category.img)} alt={category.name} /> : '📦'}
                                     </div>
                                     <h3>{category.name}</h3>

@@ -47,7 +47,7 @@ const MobileUserActions = ({
                     e.preventDefault();
                     onLoginClick();
                 }
-                
+
                 onItemClick?.();
             }}
             className="mobile-link"
@@ -174,7 +174,7 @@ const DesktopUserActions = ({
                     <DropdownMenuItem>
                         <Link
                             href={route("profile.edit")}
-                            className="flex items-center gap-2 w-full"
+                            className="flex items-center gap-2 w-full p-2!"
                         >
                             <UserIcon /> Профиль
                         </Link>
@@ -183,7 +183,7 @@ const DesktopUserActions = ({
                     <DropdownMenuItem>
                         <Link
                             href={route("orders.index")}
-                            className="flex items-center gap-2 w-full"
+                            className="flex items-center gap-2 w-full p-2!"
                         >
                             <CreditCardIcon /> Заказы
                         </Link>
@@ -193,7 +193,7 @@ const DesktopUserActions = ({
                         <DropdownMenuItem>
                             <Link
                                 href={route("admin.orders.index")}
-                                className="flex items-center gap-2 w-full"
+                                className="flex items-center gap-2 w-full p-2!"
                             >
                                 <SettingsIcon /> Админ-панель
                             </Link>
@@ -207,6 +207,7 @@ const DesktopUserActions = ({
                         method="post"
                         as="button"
                         style={{ width: "100%" }}
+                        className="flex items-center gap-2 w-full p-2!"
                     >
                         <DropdownMenuItem>
                             <LogOutIcon /> Выйти
